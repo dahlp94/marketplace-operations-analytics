@@ -1,0 +1,16 @@
+===== quality/06_join_fanout.sql =====
+ orders_multi_item_and_multi_payment | item_rows | payment_rows | rows_after_naive_join 
+-------------------------------------+-----------+--------------+-----------------------
+                                 275 |       623 |          711 |                  1622
+(1 row)
+
+             order_id             | n_items | n_payments | expected_naive_rows | naive_rows | true_item_value | naive_item_value | item_duplication_factor | true_payment_value | naive_payment_value | payment_duplication_factor 
+----------------------------------+---------+------------+---------------------+------------+-----------------+------------------+-------------------------+--------------------+---------------------+----------------------------
+ 1c11d0f4353b31ac3417fbfa5f0f2a8a |       7 |          3 |                  21 |         21 |          421.70 |          1265.10 |      3.0000000000000000 |             421.69 |             2951.83 |         7.0000000000000000
+(1 row)
+
+ orders_with_items_and_payments | item_rows_before_join | payment_rows_before_join | rows_after_naive_join | true_item_value | naive_item_value | true_payment_value | naive_payment_value 
+--------------------------------+-----------------------+--------------------------+-----------------------+-----------------+------------------+--------------------+---------------------
+                          98665 |                112647 |                   103056 |                117601 |     15843409.78 |      16566543.85 |        15846280.17 |         20308134.71
+(1 row)
+

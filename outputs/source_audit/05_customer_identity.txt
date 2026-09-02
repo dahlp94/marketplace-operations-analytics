@@ -1,0 +1,32 @@
+===== quality/05_customer_identity.sql =====
+ customer_rows | distinct_customer_id | distinct_customer_unique_id | extra_rows_beyond_unique_buyers 
+---------------+----------------------+-----------------------------+---------------------------------
+         99441 |                99441 |                       96096 |                            3345
+(1 row)
+
+ unique_buyers | buyers_with_1_order | buyers_with_2_orders | buyers_with_3plus_orders | max_orders_per_buyer 
+---------------+---------------------+----------------------+--------------------------+----------------------
+         96096 |               93099 |                 2745 |                      252 |                   17
+(1 row)
+
+        customer_unique_id        |           customer_id            |             order_id             | order_purchase_timestamp | customer_city | customer_state 
+----------------------------------+----------------------------------+----------------------------------+--------------------------+---------------+----------------
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 0e4fdc084a6b9329ed55d62dcd653ccf | 5d848f3d93a493c1c8955e018240e7ca | 2017-05-15 23:30:03      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | b2b13de0770e06de50080fea77c459e6 | 369634708db140c5d2c4e365882c443a | 2017-06-18 22:56:48      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 31dd055624c66f291578297a551a6cdf | 5837a2c844decae8a778657425f6d664 | 2017-07-17 22:11:13      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | dfb941d6f7b02f57a44c3b7c3fefb44b | 4f62d593acae92cea3c5662c76122478 | 2017-07-18 23:10:58      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 42dbc1ad9d560637c9c4c1533746f86d | bf92c69b7cc70f7fc2c37de43e366173 | 2017-07-24 22:11:50      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 1c62b48fb34ee043310dcb233caabd2e | 519203404f6116d406a970763ee75799 | 2017-08-05 08:59:43      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 0bf8bf19944a7f8b40ba86fef778ca7c | e3071b7624445af6e4f3a1b23718667d | 2017-09-05 22:14:52      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 89be66634d68fa73a95499b6352e085d | cd4b336a02aacabd0ef22f6db711f95e | 2017-10-18 23:25:04      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 9a1afef458843a022e431f4cb304dfe9 | 89d9b111d2b990deb5f5f9769f92800b | 2017-10-29 16:58:02      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 1bd3585471932167ab72a84955ebefea | b850a16d8faf65a74c51287ef34379ce | 2017-11-22 20:01:53      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | a8fabc805e9a10a3c93ae5bff642b86b | 23427a6bd9f8fd1b51f1b1e5cc186ab8 | 2018-05-21 22:44:31      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 6289b75219d757a56c0cce8d9e427900 | 6bdf325f0966e3056651285c0aed5aad | 2018-05-22 23:08:55      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | f5188d99e9281e214a4a7d1b139a8229 | 838f8e96cf584a1d8d22eaf7143c7772 | 2018-07-04 22:35:13      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 65f9db9dd07a4e79b625effa4c868fcb | 112eb6f37f1b9dabbced368fbbc6c9ef | 2018-07-23 21:53:02      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 897b7f72042714efaa64ac306ba0cafc | c2213109a2cc0e75d55585b7aaac6d97 | 2018-08-07 23:32:14      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | 3414a9c813e3ca02504b8be8b2deb27f | a1a6eadae352582010f449d8527b55f3 | 2018-08-18 12:39:19      | sao paulo     | SP
+ 8d50f5eadf50201ccdcedfb9e2ac8455 | a682769c4bc10fc6ef2101337a6c83c9 | d3582fd5ccccd9cb229a63dfb417c86f | 2018-08-20 19:14:26      | sao paulo     | SP
+(17 rows)
+

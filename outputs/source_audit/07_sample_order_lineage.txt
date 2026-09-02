@@ -1,0 +1,59 @@
+===== quality/07_sample_order_lineage.sql =====
+  case_name   |             order_id             |           customer_id            | order_status | order_purchase_timestamp | order_item_id |            product_id            |            seller_id             | price | freight_value | payment_sequential | payment_type | payment_value |            review_id             | review_score |        customer_unique_id        | customer_city | customer_state 
+--------------+----------------------------------+----------------------------------+--------------+--------------------------+---------------+----------------------------------+----------------------------------+-------+---------------+--------------------+--------------+---------------+----------------------------------+--------------+----------------------------------+---------------+----------------
+ simple_1_1_1 | 3b697a20d9e427646d92567910af6d57 | 355077684019f7f60a031656bd7262b8 | delivered    | 2016-10-03 09:44:50      |             1 | 3ae08df6bcbfe23586dd431c40bddbb7 | 522620dcb18a6b31cd7bdf73665113a9 | 29.90 |         15.56 |                  1 | boleto       |         45.46 | 9fe0f66724df77fd63fcc0c94a323978 |            4 | 32ea3bdedab835c3aa6cb68ce66565ef | sao paulo     | SP
+(1 row)
+
+         case_name         |             order_id             | order_status | order_item_id |            seller_id             | price | payment_sequential | payment_value 
+---------------------------+----------------------------------+--------------+---------------+----------------------------------+-------+--------------------+---------------
+ multi_item_single_payment | 00143d0f86d6fbd9f9b38ab440ac16f5 | delivered    |             1 | a17f621c590ea0fab3d5d883e1630ec6 | 21.33 |                  1 |        109.29
+ multi_item_single_payment | 00143d0f86d6fbd9f9b38ab440ac16f5 | delivered    |             2 | a17f621c590ea0fab3d5d883e1630ec6 | 21.33 |                  1 |        109.29
+ multi_item_single_payment | 00143d0f86d6fbd9f9b38ab440ac16f5 | delivered    |             3 | a17f621c590ea0fab3d5d883e1630ec6 | 21.33 |                  1 |        109.29
+(3 rows)
+
+         case_name         |             order_id             | order_status | order_item_id | price | freight_value | payment_sequential | payment_type | payment_value 
+---------------------------+----------------------------------+--------------+---------------+-------+---------------+--------------------+--------------+---------------
+ single_item_multi_payment | 009ac365164f8e06f59d18a08045f6c4 | delivered    |             1 | 16.90 |         15.10 |                  1 | credit_card  |          0.88
+ single_item_multi_payment | 009ac365164f8e06f59d18a08045f6c4 | delivered    |             1 | 16.90 |         15.10 |                  2 | voucher      |          4.50
+ single_item_multi_payment | 009ac365164f8e06f59d18a08045f6c4 | delivered    |             1 | 16.90 |         15.10 |                  3 | voucher      |          8.25
+ single_item_multi_payment | 009ac365164f8e06f59d18a08045f6c4 | delivered    |             1 | 16.90 |         15.10 |                  4 | voucher      |          5.45
+ single_item_multi_payment | 009ac365164f8e06f59d18a08045f6c4 | delivered    |             1 | 16.90 |         15.10 |                  5 | voucher      |          8.75
+ single_item_multi_payment | 009ac365164f8e06f59d18a08045f6c4 | delivered    |             1 | 16.90 |         15.10 |                  6 | voucher      |          4.17
+(6 rows)
+
+     case_name      |             order_id             | order_item_id |            product_id            |            seller_id             | price | freight_value 
+--------------------+----------------------------------+---------------+----------------------------------+----------------------------------+-------+---------------
+ multi_seller_order | 002f98c0f7efd42638ed6100ca699b42 |             1 | d41dc2f2979f52d75d78714b378d4068 | 7299e27ed73d2ad986de7f7c77d919fa |  8.99 |         32.57
+ multi_seller_order | 002f98c0f7efd42638ed6100ca699b42 |             2 | 880be32f4db1d9f6e2bec38fb6ac23ab | fa40cc5b934574b62717c68f3d678b6d | 44.90 |          7.16
+(2 rows)
+
+      case_name      |             order_id             | order_status | order_purchase_timestamp 
+---------------------+----------------------------------+--------------+--------------------------
+ order_without_items | 00b1cb0320190ca0daa2c88b35206009 | canceled     | 2018-08-28 15:26:39
+ order_without_items | 00d0ffd14774da775ac832ba8520510f | canceled     | 2017-12-23 22:25:00
+ order_without_items | 02e723e8edb4a123d414f56cc9c4665e | canceled     | 2017-08-18 14:30:19
+ order_without_items | 032cf17f7a713287e46999fddea6051b | canceled     | 2016-10-07 12:21:07
+ order_without_items | 03310aa823a66056268a3bab36e827fb | canceled     | 2018-08-07 16:33:59
+(5 rows)
+
+       case_name        |             order_id             | order_status | order_purchase_timestamp 
+------------------------+----------------------------------+--------------+--------------------------
+ order_without_payments | bfbd0f9bdef84302105ad712db648a6c | delivered    | 2016-09-15 12:16:38
+(1 row)
+
+       case_name       |             order_id             | order_status 
+-----------------------+----------------------------------+--------------
+ order_without_reviews | 00143d0f86d6fbd9f9b38ab440ac16f5 | delivered
+ order_without_reviews | 00335b686d693c7d72deeb12f8e89227 | delivered
+ order_without_reviews | 00a77f9cc25b05b2004752593d7b8888 | delivered
+ order_without_reviews | 00aa423621f35a9ca6c6240f275b0640 | delivered
+ order_without_reviews | 016754282c7690ebd6658f9f8e0a49bb | delivered
+(5 rows)
+
+      case_name      |            review_id             |             order_id             | review_score | review_creation_date 
+---------------------+----------------------------------+----------------------------------+--------------+----------------------
+ duplicate_review_id | 08528f70f579f0c830189efc523d2182 | 03310aa823a66056268a3bab36e827fb |            1 | 2018-08-03 00:00:00
+ duplicate_review_id | 08528f70f579f0c830189efc523d2182 | 53c71d3953507c6239ff73917ed358c9 |            1 | 2018-08-03 00:00:00
+ duplicate_review_id | 08528f70f579f0c830189efc523d2182 | 7813842ae95e8c497fc0233232ae815a |            1 | 2018-08-03 00:00:00
+(3 rows)
+

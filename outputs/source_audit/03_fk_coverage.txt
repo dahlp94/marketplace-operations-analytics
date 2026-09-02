@@ -1,0 +1,12 @@
+===== quality/03_fk_coverage.sql =====
+                 relationship                  | child_rows | unmatched_child_rows | unmatched_child_keys 
+-----------------------------------------------+------------+----------------------+----------------------
+ order_items.order_id -> orders.order_id       |     112650 |                    0 |                    0
+ order_items.product_id -> products.product_id |     112650 |                    0 |                    0
+ order_items.seller_id -> sellers.seller_id    |     112650 |                    0 |                    0
+ order_payments.order_id -> orders.order_id    |     103886 |                    0 |                    0
+ order_reviews.order_id -> orders.order_id     |      99224 |                    0 |                    0
+ orders.customer_id -> customers.customer_id   |      99441 |                    0 |                    0
+ products.product_category_name -> translation |      32951 |                   13 |                    2
+(7 rows)
+

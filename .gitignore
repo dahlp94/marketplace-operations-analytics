@@ -1,0 +1,25 @@
+# Local PostgreSQL
+.local/
+
+# Secrets
+.env
+.env.local
+
+# Raw extracts (see data/README.md)
+data/raw/*.csv
+data/raw/*.zip
+data/raw/*.gz
+!data/raw/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

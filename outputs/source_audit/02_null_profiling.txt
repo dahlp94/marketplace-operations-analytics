@@ -1,0 +1,40 @@
+===== quality/02_null_profiling.sql =====
+   table_name   |          column_name          | n_rows  | n_null | pct_null 
+----------------+-------------------------------+---------+--------+----------
+ customers      | customer_unique_id            |   99441 |      0 |   0.0000
+ customers      | customer_zip_code_prefix      |   99441 |      0 |   0.0000
+ geolocation    | geolocation_zip_code_prefix   | 1000163 |      0 |   0.0000
+ order_items    | freight_value                 |  112650 |      0 |   0.0000
+ order_items    | order_id                      |  112650 |      0 |   0.0000
+ order_items    | price                         |  112650 |      0 |   0.0000
+ order_items    | product_id                    |  112650 |      0 |   0.0000
+ order_items    | seller_id                     |  112650 |      0 |   0.0000
+ order_payments | order_id                      |  103886 |      0 |   0.0000
+ order_payments | payment_value                 |  103886 |      0 |   0.0000
+ order_reviews  | order_id                      |   99224 |      0 |   0.0000
+ order_reviews  | review_id                     |   99224 |      0 |   0.0000
+ order_reviews  | review_score                  |   99224 |      0 |   0.0000
+ orders         | customer_id                   |   99441 |      0 |   0.0000
+ orders         | order_approved_at             |   99441 |    160 |   0.1609
+ orders         | order_delivered_carrier_date  |   99441 |   1783 |   1.7930
+ orders         | order_delivered_customer_date |   99441 |   2965 |   2.9817
+ orders         | order_estimated_delivery_date |   99441 |      0 |   0.0000
+ orders         | order_id                      |   99441 |      0 |   0.0000
+ orders         | order_purchase_timestamp      |   99441 |      0 |   0.0000
+ orders         | order_status                  |   99441 |      0 |   0.0000
+ products       | product_category_name         |   32951 |    610 |   1.8512
+ sellers        | seller_zip_code_prefix        |    3095 |      0 |   0.0000
+(23 rows)
+
+ order_status | n_orders | missing_approved | missing_carrier | missing_customer_delivery 
+--------------+----------+------------------+-----------------+---------------------------
+ delivered    |    96478 |               14 |               2 |                         8
+ shipped      |     1107 |                0 |               0 |                      1107
+ canceled     |      625 |              141 |             550 |                       619
+ unavailable  |      609 |                0 |             609 |                       609
+ invoiced     |      314 |                0 |             314 |                       314
+ processing   |      301 |                0 |             301 |                       301
+ created      |        5 |                5 |               5 |                         5
+ approved     |        2 |                0 |               2 |                         2
+(8 rows)
+

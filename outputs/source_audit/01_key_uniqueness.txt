@@ -1,0 +1,14 @@
+===== quality/01_key_uniqueness.sql =====
+                   candidate_key                    | n_rows | n_distinct_key | n_null_key | is_unique 
+----------------------------------------------------+--------+----------------+------------+-----------
+ customers.customer_id                              |  99441 |          99441 |          0 | t
+ order_items.(order_id, order_item_id)              | 112650 |         112650 |          0 | t
+ order_payments.(order_id, payment_sequential)      | 103886 |         103886 |          0 | t
+ order_reviews.(review_id, order_id)                |  99224 |          99224 |          0 | t
+ order_reviews.review_id                            |  99224 |          98410 |          0 | f
+ orders.order_id                                    |  99441 |          99441 |          0 | t
+ product_category_translation.product_category_name |     71 |             71 |          0 | t
+ products.product_id                                |  32951 |          32951 |          0 | t
+ sellers.seller_id                                  |   3095 |           3095 |          0 | t
+(9 rows)
+

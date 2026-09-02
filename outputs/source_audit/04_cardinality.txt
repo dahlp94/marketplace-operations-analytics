@@ -1,0 +1,41 @@
+===== quality/04_cardinality.sql =====
+     relationship      | n_parents | parents_with_0 | parents_with_1 | parents_with_2plus | max_children | child_rows 
+-----------------------+-----------+----------------+----------------+--------------------+--------------+------------
+ orders -> order_items |     99441 |            775 |          88863 |               9803 |           21 |     112650
+(1 row)
+
+       relationship       | n_parents | parents_with_0 | parents_with_1 | parents_with_2plus | max_children | child_rows 
+--------------------------+-----------+----------------+----------------+--------------------+--------------+------------
+ orders -> order_payments |     99441 |              1 |          96479 |               2961 |           29 |     103886
+(1 row)
+
+      relationship       | n_parents | parents_with_0 | parents_with_1 | parents_with_2plus | max_children | child_rows 
+-------------------------+-----------+----------------+----------------+--------------------+--------------+------------
+ orders -> order_reviews |     99441 |            768 |          98126 |                547 |            3 |      99224
+(1 row)
+
+          relationship           | n_parents | parents_with_0 | parents_with_1 | parents_with_2plus | max_children | child_rows 
+---------------------------------+-----------+----------------+----------------+--------------------+--------------+------------
+ customers.customer_id -> orders |     99441 |              0 |          99441 |                  0 |            1 |      99441
+(1 row)
+
+      relationship      | n_parents | parents_with_0 | parents_with_1 | parents_with_2plus | max_children | child_rows 
+------------------------+-----------+----------------+----------------+--------------------+--------------+------------
+ sellers -> order_items |      3095 |              0 |            509 |               2586 |         2033 |     112650
+(1 row)
+
+      relationship       | n_parents | parents_with_0 | parents_with_1 | parents_with_2plus | max_children | child_rows 
+-------------------------+-----------+----------------+----------------+--------------------+--------------+------------
+ products -> order_items |     32951 |              0 |          18117 |              14834 |          527 |     112650
+(1 row)
+
+ orders_with_items | single_seller_orders | multi_seller_orders | max_sellers_on_one_order 
+-------------------+----------------------+---------------------+--------------------------
+             98666 |                97388 |                1278 |                        5
+(1 row)
+
+ geo_rows | distinct_zip_prefixes | max_rows_per_zip 
+----------+-----------------------+------------------
+  1000163 |                 19015 |             1146
+(1 row)
+
