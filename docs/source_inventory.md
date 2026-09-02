@@ -390,3 +390,5 @@ The following remain for data-quality investigation and analytical modeling:
 - payment reconciliation rules
 - status-specific exclusions
 - historical completeness analysis
+
+Treatment rules and downstream handling are documented in `docs/data_quality_report.md` without changing this source inventory.

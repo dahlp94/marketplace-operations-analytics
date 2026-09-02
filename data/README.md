@@ -154,7 +154,19 @@ Generated audit outputs are written to:
 outputs/source_audit/
 ```
 
-Automated structural tests can also be run with:
+After the source audit, run the Stage 2 quality investigation:
+
+```bash
+python -m python.scripts.run_quality_investigation
+```
+
+Generated quality outputs are written to:
+
+```text
+outputs/quality_investigation/
+```
+
+Automated structural and quality tests can also be run with:
 
 ```bash
 pytest -q

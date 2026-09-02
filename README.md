@@ -1,83 +1,271 @@
 # Marketplace Operations & Customer Experience Intelligence
 
-A data foundation for an Olist marketplace operations study.
+An end-to-end marketplace analytics project using the Olist Brazilian E-Commerce dataset to investigate how fulfillment, seller performance, product mix, geography, and customer experience interact.
 
-The eventual business question is which operational problems drive deteriorating customer experience, and where Operations should intervene first. That question is **not** answered here.
+## Business problem
 
-This repository currently covers the **raw-source audit**: inventory, grain, keys, cardinalities, and join-safety. No KPI layer, analytical facts/dimensions, or treatment rules have been applied.
+Marketplace operations teams need to know:
 
-## Why the source audit exists
+> **Which operational problems are driving poor customer experience, and where should Operations intervene first?**
 
-Olist is a relational extract. Orders have multiple items and multiple payments. Joining those children through `order_id` multiplies money. Customer identifiers do not mean what a CRM-style `customer_id` usually means. Geolocation is not a zip-code dimension.
+The project is being built to answer questions such as:
 
-Until those properties are measured, delivery and CX metrics are not trustworthy.
+* Where is delivery performance deteriorating?
+* Which sellers, categories, and regions contribute most to late deliveries?
+* How strongly is delivery performance associated with customer reviews?
+* Is poor delivery driven by seller handling time, carrier transit time, or unrealistic delivery promises?
+* Which operational problems affect the largest share of orders and marketplace value?
+* Which sellers or operational segments should be prioritized for intervention?
 
-## Repository layout
+The current repository contains the **data foundation and quality controls** required to answer those questions reliably. KPI development and root-cause analysis come next.
 
+
+## Why the data foundation matters
+
+The Olist dataset is relational, and several seemingly simple joins can produce incorrect results.
+
+For example:
+
+* orders can contain multiple items;
+* orders can use multiple payment records;
+* one order can involve multiple sellers;
+* `customer_id` identifies an order-scoped customer record, while `customer_unique_id` identifies the underlying buyer;
+* reviews are not strictly one-per-order;
+* geolocation contains many rows per ZIP prefix;
+* directly joining order items to payments multiplies monetary values.
+
+The project explicitly audits these relationships before building business metrics.
+
+
+## Key findings so far
+
+### Source structure
+
+* **99,441 orders**
+* **112,650 order items**
+* **103,886 payment records**
+* **99,224 review records**
+* **96,096 unique buyers**
+* **3,095 sellers**
+* **32,951 products**
+
+Important structural findings:
+
+* 9,803 orders contain multiple items.
+* 2,961 orders contain multiple payment records.
+* 1,278 orders involve multiple sellers.
+* 547 orders contain multiple review rows.
+* `review_id` is not unique by itself.
+* geolocation contains 1,000,163 rows but only 19,015 ZIP prefixes.
+
+A naive join between items and payments can materially overstate both merchandise and payment totals, so financial measures are calculated at their native grains before aggregation.
+
+### Data quality
+
+The quality investigation identified several issues that require explicit treatment rather than silent deletion:
+
+* 8 delivered orders are missing a customer-delivery timestamp.
+* 1,359 orders have carrier handoff recorded before approval.
+* 23 delivered orders have customer delivery recorded before carrier handoff.
+* 610 products have no source category.
+* 13 products belong to categories missing from the English translation table.
+* 278 customer records and 7 sellers have ZIP prefixes absent from the geolocation source.
+* 303 of 98,665 comparable orders differ by more than R$0.01 between item-side value and payment value.
+* the beginning and end of the extract contain sparse historical coverage unsuitable for direct month-over-month comparison.
+
+Rather than creating one global “clean data” filter, downstream metrics use **metric-specific eligibility rules**.
+
+For example:
+
+| Metric                   | Usable delivered orders |
+| ------------------------ | ----------------------: |
+| On-time delivery         |                  96,470 |
+| Purchase → delivery time |                  96,470 |
+| Seller handling time     |                  95,112 |
+| Carrier transit time     |                  96,281 |
+
+This preserves usable information instead of unnecessarily discarding entire orders.
+
+
+## Data-quality principles
+
+The project follows a few simple rules:
+
+* Raw source files are immutable.
+* Raw PostgreSQL tables are not manually repaired.
+* Missing or inconsistent records are retained whenever possible.
+* Quality issues are flagged rather than silently removed.
+* Exclusions are defined at the **metric level**.
+* Item and payment measures remain separate until they are safely aggregated to a common grain.
+* Missing product categories are preserved rather than dropped.
+* Raw geolocation is aggregated before geographic enrichment.
+* Historical boundary periods are excluded only from analyses that require comparable monthly coverage.
+
+Detailed findings and treatment rules are documented in [`docs/data_quality_report.md`](docs/data_quality_report.md).
+
+
+## Tech stack
+
+* **SQL / PostgreSQL** — relational modeling, quality investigation, reconciliation, and analytical queries
+* **Python** — reproducible data download, loading, and audit orchestration
+* **pytest** — executable data-quality and source-structure checks
+* **KaggleHub** — reproducible dataset download
+* **Git / GitHub** — version control and project documentation
+
+
+## Repository structure
+
+```text
+data/                  # raw-data instructions; CSV extracts are gitignored
+sql/raw/               # raw PostgreSQL schema and table definitions
+sql/quality/           # source profiling and data-quality investigation
+python/scripts/        # download, load, and audit runners
+docs/                  # source and quality documentation
+tests/                 # executable source-structure and quality checks
+scripts/               # local PostgreSQL setup
+outputs/               # generated audit results
 ```
-data/                  # raw CSV instructions; extracts are gitignored
-sql/raw/               # raw schema and table DDL
-sql/quality/           # reusable source-profiling SQL
-python/scripts/        # download, load, source-audit runner
-docs/                  # inventory, relationship audit, source ER diagram
-tests/                 # executable grain/relationship checks against raw
-scripts/               # local PostgreSQL bootstrap
+
+
+## Data source
+
+The project uses the **Brazilian E-Commerce Public Dataset by Olist**.
+
+Kaggle dataset:
+
+```text
+olistbr/brazilian-ecommerce
 ```
 
-## Database
+The source contains relational data for:
 
-PostgreSQL is the analytical engine. The default local setup is a **project-local cluster** on `127.0.0.1:55432` so it does not require the password of a system-wide Postgres install.
+* orders
+* order items
+* payments
+* reviews
+* customers
+* sellers
+* products
+* geolocation
+* product-category translations
 
-```bash
-./scripts/setup_local_postgres.sh
-```
+Raw CSV files are downloaded locally and are not committed to Git.
 
-Defaults (override with environment variables or a `.env` copied from `.env.example`):
+See [`data/README.md`](data/README.md) for details.
 
-- host `127.0.0.1`
-- port `55432`
-- user `marketplace`
-- database `marketplace_ops`
-- schema `raw`
 
-`raw` stores source extracts without primary keys, foreign keys, filters, or repairs.
+## Reproduce the project foundation
 
-## Reproduce the source audit
-
-Python 3.11+ with `psycopg2`. PostgreSQL 14+ (developed on 18.3). Add `psql` to `PATH` (this machine uses `/Library/PostgreSQL/18/bin`).
+### 1. Install dependencies
 
 ```bash
 python -m pip install -r requirements.txt
+```
+
+### 2. Start the local PostgreSQL database
+
+```bash
 ./scripts/setup_local_postgres.sh
+```
+
+Default local configuration:
+
+```text
+host:     127.0.0.1
+port:     55432
+user:     marketplace
+database: marketplace_ops
+schema:   raw
+```
+
+Configuration can be overridden through `.env`.
+
+### 3. Download the Olist data
+
+```bash
 python -m python.scripts.download_raw
+```
+
+### 4. Load the raw tables
+
+```bash
 python -m python.scripts.load_raw
+```
+
+The loader compares logical CSV record counts with PostgreSQL table counts and fails if they do not match.
+
+### 5. Run the source audit
+
+```bash
 python -m python.scripts.run_source_audit
+```
+
+This evaluates:
+
+* row counts
+* candidate-key uniqueness
+* null patterns
+* child-to-parent coverage
+* cardinality
+* customer identity
+* join fan-out
+* representative order lineage
+
+### 6. Run the data-quality investigation
+
+```bash
+python -m python.scripts.run_quality_investigation
+```
+
+This investigates:
+
+* review anomalies
+* missingness
+* timestamp validity
+* order-status consistency
+* product-category coverage
+* geography quality
+* monetary reconciliation
+* historical coverage
+* downstream treatment impact
+
+### 7. Run automated checks
+
+```bash
 pytest -q
 ```
 
-`load_raw.py` compares logical CSV row counts to loaded table counts and aborts on mismatch.
+Current test suite:
 
-Audit SQL can also be rerun directly:
-
-```bash
-export PGHOST=127.0.0.1 PGPORT=55432 PGUSER=marketplace PGDATABASE=marketplace_ops
-psql -f sql/raw/02_row_counts.sql
-psql -f sql/quality/01_key_uniqueness.sql
-psql -f sql/quality/03_fk_coverage.sql
-psql -f sql/quality/04_cardinality.sql
-psql -f sql/quality/05_customer_identity.sql
-psql -f sql/quality/06_join_fanout.sql
-psql -f sql/quality/07_sample_order_lineage.sql
+```text
+22 passed
 ```
+
 
 ## Documentation
 
-| Document | Contents |
-|---|---|
-| [docs/source_inventory.md](docs/source_inventory.md) | What each table is, grain, keys, row counts, limitations |
-| [docs/relationship_audit.md](docs/relationship_audit.md) | Cardinalities, FK coverage, customer identity, join fan-out |
-| [docs/er_diagram.md](docs/er_diagram.md) | Source-level relationship diagram |
+| Document                                                     | Purpose                                                                      |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| [`docs/source_inventory.md`](docs/source_inventory.md)       | Raw tables, grains, candidate keys, and source observations                  |
+| [`docs/relationship_audit.md`](docs/relationship_audit.md)   | Cardinality, customer identity, FK coverage, and join safety                 |
+| [`docs/er_diagram.md`](docs/er_diagram.md)                   | Source-level relational model                                                |
+| [`docs/data_quality_report.md`](docs/data_quality_report.md) | Quality findings, treatment rules, metric eligibility, and known limitations |
 
-## What this audit does not do
 
-It does not drop duplicates, repair timestamps, define KPIs, rank sellers, or build facts and dimensions. Suspicious records are identified only. Treatment rules, the analytical model, and the KPI layer are separate later work.
+## Current scope
+
+Completed:
+
+* reproducible raw-data download and PostgreSQL load;
+* source inventory and grain validation;
+* relationship and join-safety audit;
+* customer identity validation;
+* data-quality investigation;
+* monetary reconciliation;
+* historical coverage assessment;
+* documented downstream treatment rules;
+* automated validation tests.
+
+Next work will build the analytical model and KPI layer needed to investigate delivery performance, seller operations, customer experience, and intervention priorities.
+
+Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer will use the treatment rules documented here.

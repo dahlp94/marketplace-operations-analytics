@@ -272,3 +272,5 @@ The following will be resolved during data-quality investigation, or defined whe
 - payment reconciliation
 - analytical KPI definitions
 - fact/dimension model construction
+
+Data-quality findings and treatment rules are documented in `docs/data_quality_report.md`. KPI definitions and the analytical model remain later work.
