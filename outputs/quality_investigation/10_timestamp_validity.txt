@@ -1,0 +1,21 @@
+===== quality/10_timestamp_validity.sql =====
+ orders | approved_before_purchase | carrier_before_approval | carrier_before_purchase | customer_before_carrier | customer_before_purchase | estimated_before_purchase_date 
+--------+--------------------------+-------------------------+-------------------------+-------------------------+--------------------------+--------------------------------
+  99441 |                        0 |                    1359 |                     166 |                      23 |                        0 |                              0
+(1 row)
+
+ delivered_orders | customer_before_purchase | customer_before_carrier 
+------------------+--------------------------+-------------------------
+            96478 |                        0 |                      23
+(1 row)
+
+ review_rows | answer_before_creation | created_before_purchase | delivered_review_before_delivery 
+-------------+------------------------+-------------------------+----------------------------------
+       99224 |                      0 |                      74 |                             8319
+(1 row)
+
+ item_rows | shipping_limit_before_purchase 
+-----------+--------------------------------
+    112650 |                              0
+(1 row)
+

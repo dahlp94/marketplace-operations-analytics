@@ -1,0 +1,17 @@
+===== quality/12_product_category.sql =====
+ products | missing_category | untranslated_products | untranslated_category_names 
+----------+------------------+-----------------------+-----------------------------
+    32951 |              610 |                    13 |                           2
+(1 row)
+
+ products | item_rows | orders | item_side_value 
+----------+-----------+--------+-----------------
+      610 |      1603 |   1451 |       207705.09
+(1 row)
+
+             product_category_name             | products | item_rows | orders | item_side_value 
+-----------------------------------------------+----------+-----------+--------+-----------------
+ portateis_cozinha_e_preparadores_de_alimentos |       10 |        15 |     14 |         4278.29
+ pc_gamer                                      |        3 |         9 |      8 |         1679.52
+(2 rows)
+

@@ -1,0 +1,41 @@
+===== quality/14_monetary_reconciliation.sql =====
+ item_rows | negative_price | negative_freight | zero_price | zero_freight 
+-----------+----------------+------------------+------------+--------------
+    112650 |              0 |                0 |          0 |          383
+(1 row)
+
+ payment_rows | negative_payment | zero_payment | zero_installments 
+--------------+------------------+--------------+-------------------
+       103886 |                0 |            9 |                 2
+(1 row)
+
+ orders_compared | exact_match | within_1_cent | over_1_cent_to_1 | over_1 | mean_gap | net_gap 
+-----------------+-------------+---------------+------------------+--------+----------+---------
+           98665 |       98089 |           273 |               54 |    249 |   0.0291 | 2870.39
+(1 row)
+
+ order_status | n_orders | matched_within_1_cent | mismatch_over_1_cent | net_gap 
+--------------+----------+-----------------------+----------------------+---------
+ delivered    |    96477 |                 96178 |                  299 | 2831.48
+ shipped      |     1106 |                  1104 |                    2 |    6.89
+ canceled     |      461 |                   459 |                    2 |   32.01
+ invoiced     |      312 |                   312 |                    0 |    0.01
+ processing   |      301 |                   301 |                    0 |    0.00
+ unavailable  |        6 |                     6 |                    0 |    0.00
+ approved     |        2 |                     2 |                    0 |    0.00
+(7 rows)
+
+             order_id             | order_status | item_value | payment_value |  gap   
+----------------------------------+--------------+------------+---------------+--------
+ ce6d150fb29ada17d2082f4847107665 | delivered    |    1403.66 |       1586.47 | 182.81
+ 6e5fe7366a2e1bfbf3257dba0af1267f | delivered    |     287.91 |        406.92 | 119.01
+ 70b742795bc441e94a44a084b6d9ce7a | delivered    |     466.93 |        578.82 | 111.89
+ 996c7e73600ad3723e8627ab7bef81e4 | delivered    |     587.90 |        664.43 |  76.53
+ 70b7e94ea46d3e8b5bc12a50186edaf0 | delivered    |     213.15 |        274.84 |  61.69
+ bc2c82b0ef78d2252b6176d1972db7c9 | delivered    |     242.01 |        303.02 |  61.01
+ af9ffff2ce6b3defd34fd4c78857a379 | delivered    |     413.17 |        466.97 |  53.80
+ 262118ce178bb3e4590a3adcf6d62e6b | delivered    |     177.74 |        126.12 | -51.62
+ bfdb5bbb06458d600a33d61f5f287472 | delivered    |     348.93 |        394.36 |  45.43
+ 8d9c0dc8d5a2ce804f6b925d8f8e6c1d | delivered    |     254.45 |        293.89 |  39.44
+(10 rows)
+

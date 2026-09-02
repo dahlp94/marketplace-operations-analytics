@@ -1,0 +1,30 @@
+===== quality/11_status_consistency.sql =====
+ order_status | n_orders | has_approved | has_carrier | has_customer_delivery 
+--------------+----------+--------------+-------------+-----------------------
+ delivered    |    96478 |        96464 |       96476 |                 96470
+ shipped      |     1107 |         1107 |        1107 |                     0
+ canceled     |      625 |          484 |          75 |                     6
+ unavailable  |      609 |          609 |           0 |                     0
+ invoiced     |      314 |          314 |           0 |                     0
+ processing   |      301 |          301 |           0 |                     0
+ created      |        5 |            0 |           0 |                     0
+ approved     |        2 |            2 |           0 |                     0
+(8 rows)
+
+ delivered_missing_customer_delivery | delivered_missing_carrier | canceled_with_customer_delivery | shipped_with_customer_delivery 
+-------------------------------------+---------------------------+---------------------------------+--------------------------------
+                                   8 |                         2 |                               6 |                              0
+(1 row)
+
+ order_status | n_orders | orders_without_items | orders_without_payments 
+--------------+----------+----------------------+-------------------------
+ delivered    |    96478 |                    0 |                       1
+ shipped      |     1107 |                    1 |                       0
+ canceled     |      625 |                  164 |                       0
+ unavailable  |      609 |                  603 |                       0
+ invoiced     |      314 |                    2 |                       0
+ processing   |      301 |                    0 |                       0
+ created      |        5 |                    5 |                       0
+ approved     |        2 |                    0 |                       0
+(8 rows)
+

@@ -15,6 +15,7 @@ load_dotenv(ROOT / ".env")
 RAW_DIR = ROOT / "data" / "raw"
 SQL_DIR = ROOT / "sql"
 OUTPUT_DIR = ROOT / "outputs" / "source_audit"
+QUALITY_OUTPUT_DIR = ROOT / "outputs" / "quality_investigation"
 
 
 SOURCE_FILES = {

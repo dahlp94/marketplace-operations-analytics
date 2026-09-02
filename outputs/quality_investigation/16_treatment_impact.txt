@@ -1,0 +1,16 @@
+===== quality/16_treatment_impact.sql =====
+ delivered_orders | usable_for_on_time_delivery | usable_for_purchase_to_delivery | usable_for_seller_handling | usable_for_carrier_transit 
+------------------+-----------------------------+---------------------------------+----------------------------+----------------------------
+            96478 |                       96470 |                           96470 |                      95112 |                      96281
+(1 row)
+
+ affected_item_rows | affected_orders | affected_item_side_value | total_item_side_value 
+--------------------+-----------------+--------------------------+-----------------------
+               1627 |            1473 |                213662.90 |           15843553.24
+(1 row)
+
+ review_rows | rows_with_reused_review_id | orders_affected 
+-------------+----------------------------+-----------------
+       99224 |                       1603 |            1412
+(1 row)
+

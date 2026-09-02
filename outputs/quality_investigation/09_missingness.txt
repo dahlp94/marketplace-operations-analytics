@@ -1,0 +1,23 @@
+===== quality/09_missingness.sql =====
+ order_status | n_orders | missing_approved | missing_carrier | missing_customer_delivery 
+--------------+----------+------------------+-----------------+---------------------------
+ delivered    |    96478 |               14 |               2 |                         8
+ shipped      |     1107 |                0 |               0 |                      1107
+ canceled     |      625 |              141 |             550 |                       619
+ unavailable  |      609 |                0 |             609 |                       609
+ invoiced     |      314 |                0 |             314 |                       314
+ processing   |      301 |                0 |             301 |                       301
+ created      |        5 |                5 |               5 |                         5
+ approved     |        2 |                0 |               2 |                         2
+(8 rows)
+
+ delivered_orders | missing_approved | missing_carrier | missing_customer_delivery | missing_any_lifecycle_timestamp 
+------------------+------------------+-----------------+---------------------------+---------------------------------
+            96478 |               14 |               2 |                         8 |                              23
+(1 row)
+
+ products | missing_category | missing_weight | missing_any_dimension 
+----------+------------------+----------------+-----------------------
+    32951 |              610 |              2 |                     2
+(1 row)
+

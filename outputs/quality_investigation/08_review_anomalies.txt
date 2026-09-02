@@ -1,0 +1,40 @@
+===== quality/08_review_anomalies.sql =====
+ reused_review_ids | review_rows_involved | orders_involved | max_rows_per_review_id 
+-------------------+----------------------+-----------------+------------------------
+               789 |                 1603 |            1603 |                      3
+(1 row)
+
+ reused_review_ids | same_payload | different_payload 
+-------------------+--------------+-------------------
+               789 |          789 |                 0
+(1 row)
+
+ multi_review_orders | same_score | different_scores | max_reviews_per_order 
+---------------------+------------+------------------+-----------------------
+                 547 |        345 |              202 |                     3
+(1 row)
+
+            review_id             |             order_id             | review_score | review_creation_date | review_answer_timestamp |                                   comment_preview                                   
+----------------------------------+----------------------------------+--------------+----------------------+-------------------------+-------------------------------------------------------------------------------------
+ 00130cbe1f9d422698c812ed8ded1919 | 04a28263e085d399c97ae49e0b477efa |            1 | 2018-03-07 00:00:00  | 2018-03-20 18:08:23     | O cartucho "original HP" 60XL não é reconhecido pela impressora, consequentement
+ 00130cbe1f9d422698c812ed8ded1919 | dfcdfc43867d1c1381bfaf62d6b9c195 |            1 | 2018-03-07 00:00:00  | 2018-03-20 18:08:23     | O cartucho "original HP" 60XL não é reconhecido pela impressora, consequentement
+ 0115633a9c298b6a98bcbe4eee75345f | 0c9850b2c179c1ef60d2855e2751d1fa |            5 | 2017-09-21 00:00:00  | 2017-09-26 03:27:47     | 
+ 0115633a9c298b6a98bcbe4eee75345f | 78a4201f58af3463bdab842eea4bc801 |            5 | 2017-09-21 00:00:00  | 2017-09-26 03:27:47     | 
+ 0174caf0ee5964646040cd94e15ac95e | 74db91e33b4e1fd865356c89a61abf1f |            1 | 2018-03-07 00:00:00  | 2018-03-08 03:00:53     | Produto entregue dentro de embalagem do fornecedor sem os parafusos de fixação d
+ 0174caf0ee5964646040cd94e15ac95e | f93a732712407c02dce5dd5088d0f47b |            1 | 2018-03-07 00:00:00  | 2018-03-08 03:00:53     | Produto entregue dentro de embalagem do fornecedor sem os parafusos de fixação d
+ 017808d29fd1f942d97e50184dfb4c13 | 8daaa9e99d60fbba579cc1c3e3bfae01 |            5 | 2018-03-02 00:00:00  | 2018-03-05 01:43:30     | 
+ 017808d29fd1f942d97e50184dfb4c13 | b1461c8882153b5fe68307c46a506e39 |            5 | 2018-03-02 00:00:00  | 2018-03-05 01:43:30     | 
+ 0254bd905dc677a6078990aad3331a36 | 331b367bdd766f3d1cf518777317b5d9 |            1 | 2017-09-09 00:00:00  | 2017-09-13 09:52:44     | O pedido consta de 2 produtos e até agora recebi apenas 1 produto, e o que me pr
+ 0254bd905dc677a6078990aad3331a36 | 5bf226cf882c5bf4247f89a97c86f273 |            1 | 2017-09-09 00:00:00  | 2017-09-13 09:52:44     | O pedido consta de 2 produtos e até agora recebi apenas 1 produto, e o que me pr
+ 0288d42bef3dfe36930740c9588a570f | 33d8795f04dd631f3480d7aaf90da3dc |            3 | 2017-07-29 00:00:00  | 2017-07-31 17:11:04     | 
+ 0288d42bef3dfe36930740c9588a570f | f889a5a0b44adc29c5465b99395ac3c1 |            3 | 2017-07-29 00:00:00  | 2017-07-31 17:11:04     | 
+ 02aa7f5f75e964e3c7efa59a1f515281 | d8e17d5f7dacf0970d316e7c03e741e8 |            3 | 2017-07-27 00:00:00  | 2017-07-29 15:09:50     | 
+ 02aa7f5f75e964e3c7efa59a1f515281 | db92613c074f00e53066388d48ad7512 |            3 | 2017-07-27 00:00:00  | 2017-07-29 15:09:50     | 
+ 034528cb00b6bc981847acafbdf2ae0b | 3d3742a96f24a8fe4e2e57628807e476 |            1 | 2017-05-14 00:00:00  | 2017-05-15 02:17:38     | 
+ 034528cb00b6bc981847acafbdf2ae0b | e1e8e3bca903de27e9a1c72b5a5795e0 |            1 | 2017-05-14 00:00:00  | 2017-05-15 02:17:38     | 
+ 03a6a25db577d0689440933055111897 | 2acfdc5131ff2cf4433e668454c9784c |            5 | 2017-12-15 00:00:00  | 2017-12-16 01:32:18     | Muito Bom! Gostei Bastante! Tecido Ótimo! Atendeu Minhas Espectativas! 👏👏👏 Super
+ 03a6a25db577d0689440933055111897 | 3fde8b7313af6b37b84b5c7594d7add0 |            5 | 2017-12-15 00:00:00  | 2017-12-16 01:32:18     | Muito Bom! Gostei Bastante! Tecido Ótimo! Atendeu Minhas Espectativas! 👏👏👏 Super
+ 0467560f511c516ddaa54a60edb0c291 | 0c995611a99f81268d859184a416f1db |            5 | 2017-02-09 00:00:00  | 2017-02-14 15:58:44     | 
+ 0467560f511c516ddaa54a60edb0c291 | 55b2e390d5d80ada31ad1b795ebeb087 |            5 | 2017-02-09 00:00:00  | 2017-02-14 15:58:44     | 
+(20 rows)
+

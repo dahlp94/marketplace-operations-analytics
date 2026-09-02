@@ -1,0 +1,24 @@
+===== quality/13_geography.sql =====
+ zip_prefixes | zips_with_multiple_rows | zips_with_multiple_city_labels | zips_with_multiple_states | max_rows_per_zip 
+--------------+-------------------------+--------------------------------+---------------------------+------------------
+        19015 |                   17972 |                           8555 |                         8 |             1146
+(1 row)
+
+  source   | rows  | unmatched_rows | unmatched_zip_prefixes 
+-----------+-------+----------------+------------------------
+ customers | 99441 |            278 |                    157
+ sellers   |  3095 |              7 |                      7
+(2 rows)
+
+ geolocation_zip_code_prefix | n_states | states | n_rows 
+-----------------------------+----------+--------+--------
+ 79750                       |        2 | MS,RS  |    180
+ 04011                       |        2 | AC,SP  |    179
+ 21550                       |        2 | AC,RJ  |    171
+ 80630                       |        2 | PR,SC  |    123
+ 78557                       |        2 | MT,RO  |     97
+ 23056                       |        2 | AC,RJ  |     61
+ 72915                       |        2 | DF,GO  |     41
+ 02116                       |        2 | RN,SP  |     13
+(8 rows)
+
