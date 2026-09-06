@@ -166,7 +166,14 @@ Generated quality outputs are written to:
 outputs/quality_investigation/
 ```
 
-Automated structural and quality tests can also be run with:
+After the quality investigation, build the analytical model from `raw`:
+
+```bash
+python -m python.scripts.build_analytical_model
+python -m python.scripts.run_model_validation
+```
+
+Automated structural, quality, and model tests can also be run with:
 
 ```bash
 pytest -q

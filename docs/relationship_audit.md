@@ -273,4 +273,4 @@ The following will be resolved during data-quality investigation, or defined whe
 - analytical KPI definitions
 - fact/dimension model construction
 
-Data-quality findings and treatment rules are documented in `docs/data_quality_report.md`. KPI definitions and the analytical model remain later work.
+Data-quality findings and treatment rules are documented in `docs/data_quality_report.md`. The analytical model is documented in `docs/data_model.md`. KPI definitions remain later work.

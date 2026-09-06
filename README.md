@@ -17,7 +17,7 @@ The project is being built to answer questions such as:
 * Which operational problems affect the largest share of orders and marketplace value?
 * Which sellers or operational segments should be prioritized for intervention?
 
-The current repository contains the **data foundation and quality controls** required to answer those questions reliably. KPI development and root-cause analysis come next.
+The current repository contains the **data foundation, quality controls, and analytical model** required to answer those questions reliably. KPI development and root-cause analysis come next.
 
 
 ## Why the data foundation matters
@@ -119,11 +119,13 @@ Detailed findings and treatment rules are documented in [`docs/data_quality_repo
 data/                  # raw-data instructions; CSV extracts are gitignored
 sql/raw/               # raw PostgreSQL schema and table definitions
 sql/quality/           # source profiling and data-quality investigation
-python/scripts/        # download, load, and audit runners
-docs/                  # source and quality documentation
-tests/                 # executable source-structure and quality checks
+sql/staging/           # treated copies of raw tables
+sql/analytics/         # dimensions, facts, constraints, and model validation
+python/scripts/        # download, load, audit, and model runners
+docs/                  # source, quality, and analytical-model documentation
+tests/                 # source-structure, quality, and model checks
 scripts/               # local PostgreSQL setup
-outputs/               # generated audit results
+outputs/               # generated audit and validation results
 ```
 
 
@@ -175,7 +177,7 @@ host:     127.0.0.1
 port:     55432
 user:     marketplace
 database: marketplace_ops
-schema:   raw
+schemas:  raw, stg, analytics
 ```
 
 Configuration can be overridden through `.env`.
@@ -229,7 +231,29 @@ This investigates:
 * historical coverage
 * downstream treatment impact
 
-### 7. Run automated checks
+### 7. Build the analytical model
+
+```bash
+python -m python.scripts.build_analytical_model
+```
+
+This rebuilds schemas `stg` and `analytics` from `raw` without modifying raw tables.
+
+### 8. Validate the analytical model
+
+```bash
+python -m python.scripts.run_model_validation
+```
+
+This checks uniqueness, referential integrity, geography join stability, fan-out protection, sample-order lineage, and treatment coverage.
+
+Generated outputs are saved under:
+
+```text
+outputs/model_validation/
+```
+
+### 9. Run automated checks
 
 ```bash
 pytest -q
@@ -238,7 +262,7 @@ pytest -q
 Current test suite:
 
 ```text
-22 passed
+45 passed
 ```
 
 
@@ -250,6 +274,8 @@ Current test suite:
 | [`docs/relationship_audit.md`](docs/relationship_audit.md)   | Cardinality, customer identity, FK coverage, and join safety                 |
 | [`docs/er_diagram.md`](docs/er_diagram.md)                   | Source-level relational model                                                |
 | [`docs/data_quality_report.md`](docs/data_quality_report.md) | Quality findings, treatment rules, metric eligibility, and known limitations |
+| [`docs/data_model.md`](docs/data_model.md)                   | Analytical table grains, treatments, geography, and seller-SLA generation    |
+| [`docs/analytical_er_diagram.md`](docs/analytical_er_diagram.md) | Analytical facts, dimensions, keys, and cardinality                      |
 
 
 ## Current scope
@@ -264,8 +290,12 @@ Completed:
 * monetary reconciliation;
 * historical coverage assessment;
 * documented downstream treatment rules;
-* automated validation tests.
+* staging transformations and quality flags;
+* geography lookup and core dimensions;
+* synthetic seller-SLA dimension;
+* grain-safe order, item, payment, and review facts;
+* analytical-model tests and validation SQL.
 
-Next work will build the analytical model and KPI layer needed to investigate delivery performance, seller operations, customer experience, and intervention priorities.
+Next work will certify the model and then build the KPI layer needed to investigate delivery performance, seller operations, customer experience, and intervention priorities.
 
-Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer will use the treatment rules documented here.
+Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

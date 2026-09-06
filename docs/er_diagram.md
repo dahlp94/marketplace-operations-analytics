@@ -102,4 +102,4 @@ erDiagram
 
 `order_items` and `order_payments` should not be joined directly on `order_id` and then aggregated without first controlling their grains. Both are one-to-many children of `orders`, so a naive join can duplicate item and payment measures.
 
-A separate analytical ER diagram will document the final analytical model.
+The analytical model is documented in [`docs/analytical_er_diagram.md`](analytical_er_diagram.md) and [`docs/data_model.md`](data_model.md).
