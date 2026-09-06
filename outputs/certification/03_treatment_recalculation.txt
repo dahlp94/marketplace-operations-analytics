@@ -1,0 +1,19 @@
+===== certification/03_treatment_recalculation.sql =====
+           treatment           | raw_recalculation | analytical_result | matches 
+-------------------------------+-------------------+-------------------+---------
+ eligible_carrier_transit      |             96281 |             96281 | t
+ eligible_on_time_delivery     |             96470 |             96470 | t
+ eligible_purchase_to_delivery |             96470 |             96470 | t
+ eligible_seller_handling      |             95112 |             95112 | t
+ portuguese_fallback_products  |                13 |                13 | t
+ reused_review_rows            |              1603 |              1603 | t
+ unknown_category_products     |               610 |               610 | t
+ unmatched_customer_geography  |               278 |               278 | t
+ unmatched_seller_geography    |                 7 |                 7 | t
+(9 rows)
+
+ raw_orders | analytical_orders 
+------------+-------------------
+      98292 |             98292
+(1 row)
+

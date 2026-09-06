@@ -1,0 +1,24 @@
+===== certification/01_source_reconciliation.sql =====
+     entity     | raw_rows | analytical_rows | reconciles 
+----------------+----------+-----------------+------------
+ customers      |    99441 |           99441 | t
+ order_items    |   112650 |          112650 | t
+ order_payments |   103886 |          103886 | t
+ order_reviews  |    99224 |           99224 | t
+ orders         |    99441 |           99441 | t
+ products       |    32951 |           32951 | t
+ sellers        |     3095 |            3095 | t
+(7 rows)
+
+ order_status | raw_orders | analytical_orders | reconciles 
+--------------+------------+-------------------+------------
+ approved     |          2 |                 2 | t
+ canceled     |        625 |               625 | t
+ created      |          5 |                 5 | t
+ delivered    |      96478 |             96478 | t
+ invoiced     |        314 |               314 | t
+ processing   |        301 |               301 | t
+ shipped      |       1107 |              1107 | t
+ unavailable  |        609 |               609 | t
+(8 rows)
+

@@ -1,0 +1,14 @@
+===== certification/02_monetary_reconciliation.sql =====
+      measure      |  raw_total  | analytical_total | order_rollup | reconciles 
+-------------------+-------------+------------------+--------------+------------
+ collected_payment | 16008872.12 |      16008872.12 |  16008872.12 | t
+ freight_value     |  2251909.54 |       2251909.54 |   2251909.54 | t
+ item_side_value   | 15843553.24 |      15843553.24 |  15843553.24 | t
+ merchandise_value | 13591643.70 |      13591643.70 |  13591643.70 | t
+(4 rows)
+
+ raw_recalculation | analytical_flagged 
+-------------------+--------------------
+               303 |                303
+(1 row)
+
