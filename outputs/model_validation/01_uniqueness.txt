@@ -1,0 +1,14 @@
+===== analytics/validate/01_uniqueness.sql =====
+    table_name    | n_rows | n_keys | is_unique 
+------------------+--------+--------+-----------
+ dim_date         |    800 |    800 | t
+ dim_seller       |   3095 |   3095 | t
+ dim_geography    |  19177 |  19177 | t
+ dim_product      |  32951 |  32951 | t
+ dim_customer     |  99441 |  99441 | t
+ fact_orders      |  99441 |  99441 | t
+ fact_payments    | 103886 | 103886 | t
+ fact_reviews     |  99224 |  99224 | t
+ fact_order_items | 112650 | 112650 | t
+(9 rows)
+

@@ -16,6 +16,7 @@ RAW_DIR = ROOT / "data" / "raw"
 SQL_DIR = ROOT / "sql"
 OUTPUT_DIR = ROOT / "outputs" / "source_audit"
 QUALITY_OUTPUT_DIR = ROOT / "outputs" / "quality_investigation"
+MODEL_OUTPUT_DIR = ROOT / "outputs" / "model_validation"
 
 
 SOURCE_FILES = {

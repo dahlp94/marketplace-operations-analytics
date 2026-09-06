@@ -1,0 +1,7 @@
+===== analytics/validate/03_geography_joins.sql =====
+  entity   | native_rows | joined_rows | unmatched_rows 
+-----------+-------------+-------------+----------------
+ customers |       99441 |       99441 |            278
+ sellers   |        3095 |        3095 |              7
+(2 rows)
+

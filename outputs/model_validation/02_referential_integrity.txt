@@ -1,0 +1,14 @@
+===== analytics/validate/02_referential_integrity.sql =====
+               relationship                | unmatched_rows 
+-------------------------------------------+----------------
+ dim_seller.zip → dim_geography            |              0
+ dim_customer.zip → dim_geography          |              0
+ fact_order_items.seller_id → dim_seller   |              0
+ fact_orders.purchase_date → dim_date      |              0
+ fact_order_items.product_id → dim_product |              0
+ fact_reviews.order_id → fact_orders       |              0
+ fact_orders.customer_id → dim_customer    |              0
+ fact_order_items.order_id → fact_orders   |              0
+ fact_payments.order_id → fact_orders      |              0
+(9 rows)
+

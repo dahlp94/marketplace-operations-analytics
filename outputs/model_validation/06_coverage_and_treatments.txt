@@ -1,0 +1,27 @@
+===== analytics/validate/06_coverage_and_treatments.sql =====
+   table_name   | raw_rows | analytical_rows 
+----------------+----------+-----------------
+ orders         |    99441 |           99441
+ order_items    |   112650 |          112650
+ order_payments |   103886 |          103886
+ order_reviews  |    99224 |           99224
+ customers      |    99441 |           99441
+ sellers        |     3095 |            3095
+ products       |    32951 |           32951
+(7 rows)
+
+ delivered_orders | eligible_on_time_delivery | eligible_purchase_to_delivery | eligible_seller_handling | eligible_carrier_transit | full_month_trend_window_orders | monetary_diff_gt_tolerance | orders_without_items | orders_without_payments 
+------------------+---------------------------+-------------------------------+--------------------------+--------------------------+--------------------------------+----------------------------+----------------------+-------------------------
+            96478 |                     96470 |                         96470 |                    95112 |                    96281 |                          98292 |                        303 |                  775 |                       1
+(1 row)
+
+ unknown_category_products | portuguese_fallback_products 
+---------------------------+------------------------------
+                       610 |                           13
+(1 row)
+
+ review_rows | reused_review_rows | usable_review_rows | orders_affected_by_reused_review_ids 
+-------------+--------------------+--------------------+--------------------------------------
+       99224 |               1603 |              97621 |                                 1412
+(1 row)
+

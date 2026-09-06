@@ -1,0 +1,115 @@
+===== analytics/validate/01_uniqueness.sql =====
+    table_name    | n_rows | n_keys | is_unique 
+------------------+--------+--------+-----------
+ dim_date         |    800 |    800 | t
+ dim_seller       |   3095 |   3095 | t
+ dim_geography    |  19177 |  19177 | t
+ dim_product      |  32951 |  32951 | t
+ dim_customer     |  99441 |  99441 | t
+ fact_orders      |  99441 |  99441 | t
+ fact_payments    | 103886 | 103886 | t
+ fact_reviews     |  99224 |  99224 | t
+ fact_order_items | 112650 | 112650 | t
+(9 rows)
+
+
+===== analytics/validate/02_referential_integrity.sql =====
+               relationship                | unmatched_rows 
+-------------------------------------------+----------------
+ dim_seller.zip → dim_geography            |              0
+ dim_customer.zip → dim_geography          |              0
+ fact_order_items.seller_id → dim_seller   |              0
+ fact_orders.purchase_date → dim_date      |              0
+ fact_order_items.product_id → dim_product |              0
+ fact_reviews.order_id → fact_orders       |              0
+ fact_orders.customer_id → dim_customer    |              0
+ fact_order_items.order_id → fact_orders   |              0
+ fact_payments.order_id → fact_orders      |              0
+(9 rows)
+
+
+===== analytics/validate/03_geography_joins.sql =====
+  entity   | native_rows | joined_rows | unmatched_rows 
+-----------+-------------+-------------+----------------
+ customers |       99441 |       99441 |            278
+ sellers   |        3095 |        3095 |              7
+(2 rows)
+
+
+===== analytics/validate/04_fanout_protection.sql =====
+            join_name            | native_rows | joined_rows 
+---------------------------------+-------------+-------------
+ fact_order_items -> fact_orders |      112650 |      112650
+ fact_payments -> fact_orders    |      103886 |      103886
+ fact_reviews -> fact_orders     |       99224 |       99224
+ fact_orders -> dim_customer     |       99441 |       99441
+(4 rows)
+
+ merchandise_native | merchandise_order_rollup | item_side_native | item_side_order_rollup | payment_native | payment_order_rollup 
+--------------------+--------------------------+------------------+------------------------+----------------+----------------------
+        13591643.70 |              13591643.70 |      15843553.24 |            15843553.24 |    16008872.12 |          16008872.12
+(1 row)
+
+
+===== analytics/validate/05_sample_lineage.sql =====
+  case_name   |             order_id             | order_status | n_items | n_payment_rows | n_review_rows | n_sellers | merchandise_value | item_side_value | collected_payment | order_review_score 
+--------------+----------------------------------+--------------+---------+----------------+---------------+-----------+-------------------+-----------------+-------------------+--------------------
+ simple_1_1_1 | 3b697a20d9e427646d92567910af6d57 | delivered    |       1 |              1 |             1 |         1 |             29.90 |           45.46 |             45.46 | 4.0000000000000000
+(1 row)
+
+         case_name         |             order_id             | n_items | n_payment_rows | item_side_value | collected_payment | monetary_diff_gt_tolerance 
+---------------------------+----------------------------------+---------+----------------+-----------------+-------------------+----------------------------
+ multi_item_single_payment | 00143d0f86d6fbd9f9b38ab440ac16f5 |       3 |              1 |          109.29 |            109.29 | f
+(1 row)
+
+         case_name         |             order_id             | n_items | n_payment_rows | item_side_value | collected_payment 
+---------------------------+----------------------------------+---------+----------------+-----------------+-------------------
+ single_item_multi_payment | 009ac365164f8e06f59d18a08045f6c4 |       1 |              6 |           32.00 |             32.00
+(1 row)
+
+     case_name      |             order_id             | order_item_id |            seller_id             | price 
+--------------------+----------------------------------+---------------+----------------------------------+-------
+ multi_seller_order | 002f98c0f7efd42638ed6100ca699b42 |             1 | 7299e27ed73d2ad986de7f7c77d919fa |  8.99
+ multi_seller_order | 002f98c0f7efd42638ed6100ca699b42 |             2 | fa40cc5b934574b62717c68f3d678b6d | 44.90
+(2 rows)
+
+       case_name        |             order_id             | order_status | n_items | n_payment_rows | merchandise_value | collected_payment 
+------------------------+----------------------------------+--------------+---------+----------------+-------------------+-------------------
+ order_without_payments | bfbd0f9bdef84302105ad712db648a6c | delivered    |       3 |              0 |            134.97 |                  
+(1 row)
+
+    case_name     |            review_id             |             order_id             | review_score | review_id_reused 
+------------------+----------------------------------+----------------------------------+--------------+------------------
+ reused_review_id | 08528f70f579f0c830189efc523d2182 | 03310aa823a66056268a3bab36e827fb |            1 | t
+ reused_review_id | 08528f70f579f0c830189efc523d2182 | 53c71d3953507c6239ff73917ed358c9 |            1 | t
+ reused_review_id | 08528f70f579f0c830189efc523d2182 | 7813842ae95e8c497fc0233232ae815a |            1 | t
+(3 rows)
+
+
+===== analytics/validate/06_coverage_and_treatments.sql =====
+   table_name   | raw_rows | analytical_rows 
+----------------+----------+-----------------
+ orders         |    99441 |           99441
+ order_items    |   112650 |          112650
+ order_payments |   103886 |          103886
+ order_reviews  |    99224 |           99224
+ customers      |    99441 |           99441
+ sellers        |     3095 |            3095
+ products       |    32951 |           32951
+(7 rows)
+
+ delivered_orders | eligible_on_time_delivery | eligible_purchase_to_delivery | eligible_seller_handling | eligible_carrier_transit | full_month_trend_window_orders | monetary_diff_gt_tolerance | orders_without_items | orders_without_payments 
+------------------+---------------------------+-------------------------------+--------------------------+--------------------------+--------------------------------+----------------------------+----------------------+-------------------------
+            96478 |                     96470 |                         96470 |                    95112 |                    96281 |                          98292 |                        303 |                  775 |                       1
+(1 row)
+
+ unknown_category_products | portuguese_fallback_products 
+---------------------------+------------------------------
+                       610 |                           13
+(1 row)
+
+ review_rows | reused_review_rows | usable_review_rows | orders_affected_by_reused_review_ids 
+-------------+--------------------+--------------------+--------------------------------------
+       99224 |               1603 |              97621 |                                 1412
+(1 row)
+

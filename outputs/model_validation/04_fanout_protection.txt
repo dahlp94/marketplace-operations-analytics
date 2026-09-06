@@ -1,0 +1,14 @@
+===== analytics/validate/04_fanout_protection.sql =====
+            join_name            | native_rows | joined_rows 
+---------------------------------+-------------+-------------
+ fact_order_items -> fact_orders |      112650 |      112650
+ fact_payments -> fact_orders    |      103886 |      103886
+ fact_reviews -> fact_orders     |       99224 |       99224
+ fact_orders -> dim_customer     |       99441 |       99441
+(4 rows)
+
+ merchandise_native | merchandise_order_rollup | item_side_native | item_side_order_rollup | payment_native | payment_order_rollup 
+--------------------+--------------------------+------------------+------------------------+----------------+----------------------
+        13591643.70 |              13591643.70 |      15843553.24 |            15843553.24 |    16008872.12 |          16008872.12
+(1 row)
+
