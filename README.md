@@ -121,6 +121,7 @@ sql/raw/               # raw PostgreSQL schema and table definitions
 sql/quality/           # source profiling and data-quality investigation
 sql/staging/           # treated copies of raw tables
 sql/analytics/         # dimensions, facts, constraints, and model validation
+sql/certification/     # independent raw-vs-analytics foundation certification
 python/scripts/        # download, load, audit, and model runners
 docs/                  # source, quality, and analytical-model documentation
 tests/                 # source-structure, quality, and model checks
@@ -253,7 +254,21 @@ Generated outputs are saved under:
 outputs/model_validation/
 ```
 
-### 9. Run automated checks
+### 9. Certify the foundation
+
+```bash
+python -m python.scripts.run_foundation_certification
+```
+
+This independently reconciles raw versus analytics entity counts, status populations, monetary totals, grains, treatments, and sample-order lineage.
+
+Generated outputs are saved under:
+
+```text
+outputs/certification/
+```
+
+### 10. Run automated checks
 
 ```bash
 pytest -q
@@ -262,7 +277,7 @@ pytest -q
 Current test suite:
 
 ```text
-45 passed
+42 passed
 ```
 
 
@@ -274,8 +289,9 @@ Current test suite:
 | [`docs/relationship_audit.md`](docs/relationship_audit.md)   | Cardinality, customer identity, FK coverage, and join safety                 |
 | [`docs/er_diagram.md`](docs/er_diagram.md)                   | Source-level relational model                                                |
 | [`docs/data_quality_report.md`](docs/data_quality_report.md) | Quality findings, treatment rules, metric eligibility, and known limitations |
-| [`docs/data_model.md`](docs/data_model.md)                   | Analytical table grains, treatments, geography, and seller-SLA generation    |
+| [`docs/data_model.md`](docs/data_model.md)                   | Analytical table grains, treatments, and geography resolution                |
 | [`docs/analytical_er_diagram.md`](docs/analytical_er_diagram.md) | Analytical facts, dimensions, keys, and cardinality                      |
+| [`docs/foundation_certification.md`](docs/foundation_certification.md) | Independent reconciliation and certification of the analytical foundation |
 
 
 ## Current scope
@@ -292,10 +308,10 @@ Completed:
 * documented downstream treatment rules;
 * staging transformations and quality flags;
 * geography lookup and core dimensions;
-* synthetic seller-SLA dimension;
 * grain-safe order, item, payment, and review facts;
-* analytical-model tests and validation SQL.
+* analytical-model tests and validation SQL;
+* foundation reconciliation and certification.
 
-Next work will certify the model and then build the KPI layer needed to investigate delivery performance, seller operations, customer experience, and intervention priorities.
+Next work will build the KPI layer needed to investigate delivery performance, seller operations, customer experience, and intervention priorities.
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

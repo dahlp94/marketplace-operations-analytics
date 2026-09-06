@@ -1,4 +1,4 @@
--- Category label follows the approved Stage 2 COALESCE rule.
+-- Apply the approved product-category fallback rule.
 
 DROP TABLE IF EXISTS stg.products;
 

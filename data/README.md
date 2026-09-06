@@ -166,14 +166,15 @@ Generated quality outputs are written to:
 outputs/quality_investigation/
 ```
 
-After the quality investigation, build the analytical model from `raw`:
+After the quality investigation, build and certify the analytical model from `raw`:
 
 ```bash
 python -m python.scripts.build_analytical_model
 python -m python.scripts.run_model_validation
+python -m python.scripts.run_foundation_certification
 ```
 
-Automated structural, quality, and model tests can also be run with:
+Automated structural, quality, model, and certification tests can also be run with:
 
 ```bash
 pytest -q

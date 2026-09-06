@@ -31,6 +31,7 @@ Rebuild and validate the model with:
 ```bash
 python -m python.scripts.build_analytical_model
 python -m python.scripts.run_model_validation
+python -m python.scripts.run_foundation_certification
 pytest -q
 ```
 
@@ -343,7 +344,8 @@ The model preserves rather than hides unresolved source limitations:
 python -m python.scripts.load_raw
 python -m python.scripts.build_analytical_model
 python -m python.scripts.run_model_validation
+python -m python.scripts.run_foundation_certification
 pytest -q
 ```
 
-The analytical relationship diagram is in [`docs/analytical_er_diagram.md`](analytical_er_diagram.md).
+The analytical relationship diagram is in [`docs/analytical_er_diagram.md`](analytical_er_diagram.md). Foundation certification is in [`docs/foundation_certification.md`](foundation_certification.md).

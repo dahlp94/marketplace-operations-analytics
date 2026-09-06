@@ -471,4 +471,4 @@ It does not build:
 
 Those layers should consume the treatment rules defined here rather than reinterpreting raw-source anomalies independently.
 
-Stage 3 implements these rules in schemas `stg` and `analytics`. See [`docs/data_model.md`](data_model.md).
+These rules are implemented in the `stg` and `analytics` schemas. See [`docs/data_model.md`](data_model.md).
