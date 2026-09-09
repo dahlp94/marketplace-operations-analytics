@@ -17,7 +17,7 @@ The project is being built to answer questions such as:
 * Which operational problems affect the largest share of orders and marketplace value?
 * Which sellers or operational segments should be prioritized for intervention?
 
-The current repository contains the **data foundation, quality controls, and analytical model** required to answer those questions reliably. KPI development and root-cause analysis come next.
+The current repository contains the data foundation, quality controls, analytical model, metric contracts, and reusable KPI layer required to answer those questions reliably. Root-cause analysis comes next.
 
 
 ## Why the data foundation matters
@@ -122,11 +122,12 @@ sql/quality/           # source profiling and data-quality investigation
 sql/staging/           # treated copies of raw tables
 sql/analytics/         # dimensions, facts, constraints, and model validation
 sql/certification/     # independent raw-vs-analytics foundation certification
+sql/metrics/           # Metric definitions, validation, and KPI SQL
 python/scripts/        # download, load, audit, and model runners
-docs/                  # source, quality, and analytical-model documentation
-tests/                 # source-structure, quality, and model checks
+docs/                  # source, quality, analytical-model, and metric documentation
+tests/                 # source-structure, quality, model, and metric-contract checks
 scripts/               # local PostgreSQL setup
-outputs/               # generated audit and validation results
+outputs/               # generated audit, validation, and metric-contract results
 ```
 
 
@@ -178,7 +179,7 @@ host:     127.0.0.1
 port:     55432
 user:     marketplace
 database: marketplace_ops
-schemas:  raw, stg, analytics
+schemas:  raw, stg, analytics, metrics
 ```
 
 Configuration can be overridden through `.env`.
@@ -277,8 +278,27 @@ pytest -q
 Current test suite:
 
 ```text
-42 passed
+60 passed
 ```
+
+### 11. Validate metric definitions
+
+```bash
+python -m python.scripts.run_metric_contract_validation
+pytest tests/test_metric_contracts.py -q
+```
+
+This recalculates analytical populations, delivery classification, seller attribution, review, and repeat-customer definitions from the certified model. It does not build the reusable KPI layer.
+
+### 12. Build and validate the metric layer
+
+```bash
+python -m python.scripts.build_metric_layer
+python -m python.scripts.run_metric_layer_validation
+pytest tests/test_metric_layer.py -q
+```
+
+This creates reusable `metrics.*` tables from the certified analytical model and independently spot-checks them against `analytics.*`.
 
 
 ## Documentation
@@ -292,6 +312,8 @@ Current test suite:
 | [`docs/data_model.md`](docs/data_model.md)                   | Analytical table grains, treatments, and geography resolution                |
 | [`docs/analytical_er_diagram.md`](docs/analytical_er_diagram.md) | Analytical facts, dimensions, keys, and cardinality                      |
 | [`docs/foundation_certification.md`](docs/foundation_certification.md) | Independent reconciliation and certification of the analytical foundation |
+| [`docs/metric_dictionary.md`](docs/metric_dictionary.md) | Metric definitions, populations, grains, and attribution rules |
+| [`docs/metric_layer.md`](docs/metric_layer.md) | Reusable KPI table grains, join safety, and rebuild instructions |
 
 
 ## Current scope
@@ -310,8 +332,10 @@ Completed:
 * geography lookup and core dimensions;
 * grain-safe order, item, payment, and review facts;
 * analytical-model tests and validation SQL;
-* foundation reconciliation and certification.
+* foundation reconciliation and certification;
+* Metric definitions and analytical population rules;
+* reusable fulfillment, seller, CX, repeat-customer, and commercial KPI tables.
 
-Next work will build the KPI layer needed to investigate delivery performance, seller operations, customer experience, and intervention priorities.
+Next work is advanced SQL trends, rankings, and contribution analysis. Root-cause conclusions and intervention priorities come after that layer is certified.
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

@@ -1,0 +1,30 @@
+===== metrics/validate/02_grain_and_reconciliation.sql =====
+      table_name       | is_unique 
+-----------------------+-----------
+ kpi_marketplace_month | t
+ kpi_sellers           | t
+ kpi_customers         | t
+ kpi_orders            | t
+ kpi_seller_orders     | t
+(5 rows)
+
+ seller_matches_items | items_match_orders | eligible_gmv_matches | late_gmv_matches 
+----------------------+--------------------+----------------------+------------------
+ t                    | t                  | t                    | t
+(1 row)
+
+ late_units_match | contribution_sums_to_one 
+------------------+--------------------------
+ t                | t
+(1 row)
+
+ orders_reconcile | late_orders_reconcile 
+------------------+-----------------------
+ t                | t
+(1 row)
+
+ review_populations_reconcile | negative_reviews_within_reviewed 
+------------------------------+----------------------------------
+ t                            | t
+(1 row)
+

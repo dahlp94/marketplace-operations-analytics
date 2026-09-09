@@ -1,0 +1,61 @@
+===== metrics/validate/01_independent_spot_checks.sql =====
+ delivered_matches | eligible_matches | late_matches | on_time_rate_matches 
+-------------------+------------------+--------------+----------------------
+ t                 | t                | t            | t
+(1 row)
+
+             order_id             | purchase_to_delivery_matches | seller_handling_matches | carrier_transit_matches | delay_matches 
+----------------------------------+------------------------------+-------------------------+-------------------------+---------------
+ 00010242fe8c5a6d1ba2dd792cb16214 | t                            | t                       | t                       | t
+ 00018f77f2f0320c557190d7a144bdd3 | t                            | t                       | t                       | t
+ 000229ec398224ef6ca0657da4fc703e | t                            | t                       | t                       | t
+(3 rows)
+
+            seller_id             | eligible_matches | late_matches | gmv_matches 
+----------------------------------+------------------+--------------+-------------
+ 7299e27ed73d2ad986de7f7c77d919fa | t                | t            | t
+ fa40cc5b934574b62717c68f3d678b6d | t                | t            | t
+(2 rows)
+
+ review_coverage_matches | negative_rate_matches | gmv_matches 
+-------------------------+-----------------------+-------------
+ t                       | t                     | t
+(1 row)
+
+             order_id             | sequence_matches | repeat_flag_matches 
+----------------------------------+------------------+---------------------
+ a61d617fbe5bd006e40d3a0988fc844b | t                | t
+ 08204559bebd39e09ee52dcb56d8faa2 | t                | t
+(2 rows)
+
+
+===== metrics/validate/02_grain_and_reconciliation.sql =====
+      table_name       | is_unique 
+-----------------------+-----------
+ kpi_marketplace_month | t
+ kpi_sellers           | t
+ kpi_customers         | t
+ kpi_orders            | t
+ kpi_seller_orders     | t
+(5 rows)
+
+ seller_matches_items | items_match_orders | eligible_gmv_matches | late_gmv_matches 
+----------------------+--------------------+----------------------+------------------
+ t                    | t                  | t                    | t
+(1 row)
+
+ late_units_match | contribution_sums_to_one 
+------------------+--------------------------
+ t                | t
+(1 row)
+
+ orders_reconcile | late_orders_reconcile 
+------------------+-----------------------
+ t                | t
+(1 row)
+
+ review_populations_reconcile | negative_reviews_within_reviewed 
+------------------------------+----------------------------------
+ t                            | t
+(1 row)
+
