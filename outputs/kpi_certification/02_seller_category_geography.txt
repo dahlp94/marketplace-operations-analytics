@@ -1,0 +1,21 @@
+===== kpi_certification/02_seller_category_geography.sql =====
+ late_units_explained | late_units_match | seller_gmv_matches_items | seller_gmv_matches_kpi | contribution_sums_to_one 
+----------------------+------------------+--------------------------+------------------------+--------------------------
+ t                    | t                | t                        | t                      | t
+(1 row)
+
+ late_count_mismatches | eligible_mismatches | gmv_mismatches | late_rate_mismatches 
+-----------------------+---------------------+----------------+----------------------
+                     0 |                   0 |              0 |                    0
+(1 row)
+
+ category_gmv_match | analysis_category_gmv_match | category_late_counts_non_additive 
+--------------------+-----------------------------+-----------------------------------
+ t                  | t                           | t
+(1 row)
+
+ customer_orders_match | customer_gmv_match | seller_units_match | seller_gmv_match | geography_join_stable 
+-----------------------+--------------------+--------------------+------------------+-----------------------
+ t                     | t                  | t                  | t                | t
+(1 row)
+

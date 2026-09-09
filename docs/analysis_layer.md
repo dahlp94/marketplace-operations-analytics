@@ -28,6 +28,8 @@ python -m python.scripts.run_analysis_validation
 pytest tests/test_analysis_layer.py -q
 ```
 
+Independent certification of the metric and analysis layers is documented in [`docs/kpi_certification.md`](kpi_certification.md).
+
 # Time basis and comparable periods
 
 Canonical date remains `purchase_date`.

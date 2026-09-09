@@ -1,0 +1,139 @@
+===== kpi_certification/05_query_plans.sql =====
+===== 1. Marketplace delivery aggregation =====
+                                                                  QUERY PLAN                                                                   
+-----------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=5635.08..5635.09 rows=1 width=48) (actual time=32.400..34.619 rows=1.00 loops=1)
+   Buffers: shared hit=2880
+   ->  Gather  (cost=5634.85..5635.06 rows=2 width=48) (actual time=32.234..34.599 rows=2.00 loops=1)
+         Workers Planned: 1
+         Workers Launched: 1
+         Buffers: shared hit=2880
+         ->  Partial Aggregate  (cost=4634.85..4634.86 rows=1 width=48) (actual time=29.705..29.705 rows=1.00 loops=2)
+               Buffers: shared hit=2880
+               ->  Parallel Seq Scan on fact_orders  (cost=0.00..3464.95 rows=58495 width=31) (actual time=0.011..7.468 rows=49720.50 loops=2)
+                     Buffers: shared hit=2880
+ Planning:
+   Buffers: shared hit=113 read=4
+ Planning Time: 0.761 ms
+ Execution Time: 34.740 ms
+(14 rows)
+
+===== 2. Seller-order aggregation =====
+                                                                              QUERY PLAN                                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=0.55..16679.45 rows=86994 width=98) (actual time=0.205..295.736 rows=100010.00 loops=1)
+   Group Key: order_id, seller_id
+   Buffers: shared hit=2400 read=807
+   ->  Incremental Sort  (cost=0.55..14747.15 rows=112650 width=72) (actual time=0.197..199.785 rows=112650.00 loops=1)
+         Sort Key: order_id, seller_id
+         Presorted Key: order_id
+         Full-sort Groups: 3500  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+         Buffers: shared hit=2400 read=807
+         ->  Index Scan using fact_order_items_pkey on fact_order_items  (cost=0.42..10575.85 rows=112650 width=72) (actual time=0.048..40.524 rows=112650.00 loops=1)
+               Index Searches: 1
+               Buffers: shared hit=2397 read=807
+ Planning:
+   Buffers: shared hit=62 read=2
+ Planning Time: 0.459 ms
+ Execution Time: 301.754 ms
+(15 rows)
+
+===== 3. Marketplace rolling window =====
+                                                                QUERY PLAN                                                                 
+-------------------------------------------------------------------------------------------------------------------------------------------
+ WindowAgg  (cost=5743.22..5763.32 rows=620 width=68) (actual time=77.723..78.905 rows=634.00 loops=1)
+   Window: w2 AS (ORDER BY kpi_orders.purchase_date RANGE BETWEEN '89 days'::interval PRECEDING AND CURRENT ROW)
+   Storage: Memory  Maximum Storage: 22kB
+   Buffers: shared hit=3968
+   ->  WindowAgg  (cost=5743.19..5754.02 rows=620 width=52) (actual time=77.709..78.317 rows=634.00 loops=1)
+         Window: w1 AS (ORDER BY kpi_orders.purchase_date RANGE BETWEEN '29 days'::interval PRECEDING AND CURRENT ROW)
+         Storage: Memory  Maximum Storage: 18kB
+         Buffers: shared hit=3968
+         ->  Sort  (cost=5743.17..5744.72 rows=620 width=20) (actual time=77.690..77.737 rows=634.00 loops=1)
+               Sort Key: kpi_orders.purchase_date
+               Sort Method: quicksort  Memory: 49kB
+               Buffers: shared hit=3968
+               ->  HashAggregate  (cost=5708.22..5714.42 rows=620 width=20) (actual time=77.468..77.550 rows=634.00 loops=1)
+                     Group Key: kpi_orders.purchase_date
+                     Batches: 1  Memory Usage: 105kB
+                     Buffers: shared hit=3968
+                     ->  Seq Scan on kpi_orders  (cost=0.00..4962.41 rows=99441 width=6) (actual time=0.009..21.217 rows=99441.00 loops=1)
+                           Buffers: shared hit=3968
+ Planning:
+   Buffers: shared hit=34 read=2
+ Planning Time: 0.396 ms
+ Execution Time: 79.052 ms
+(22 rows)
+
+===== 4. Seller rolling window =====
+                                                                           QUERY PLAN                                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ WindowAgg  (cost=5394.66..5594.66 rows=10001 width=69) (actual time=669.787..748.201 rows=69413.00 loops=1)
+   Window: w1 AS (PARTITION BY kpi_seller_orders.seller_id ORDER BY kpi_seller_orders.purchase_date RANGE BETWEEN '29 days'::interval PRECEDING AND CURRENT ROW)
+   Storage: Memory  Maximum Storage: 19kB
+   Buffers: shared hit=2880, temp read=494 written=495
+   ->  Sort  (cost=5394.64..5419.65 rows=10001 width=45) (actual time=669.767..685.124 rows=69413.00 loops=1)
+         Sort Key: kpi_seller_orders.seller_id, kpi_seller_orders.purchase_date
+         Sort Method: external merge  Disk: 3952kB
+         Buffers: shared hit=2880, temp read=494 written=495
+         ->  HashAggregate  (cost=4630.18..4730.19 rows=10001 width=45) (actual time=73.607..87.137 rows=69413.00 loops=1)
+               Group Key: kpi_seller_orders.seller_id, kpi_seller_orders.purchase_date
+               Batches: 1  Memory Usage: 7193kB
+               Buffers: shared hit=2880
+               ->  Seq Scan on kpi_seller_orders  (cost=0.00..3880.10 rows=100010 width=38) (actual time=0.010..16.549 rows=100010.00 loops=1)
+                     Buffers: shared hit=2880
+ Planning:
+   Buffers: shared hit=32 read=4
+ Planning Time: 0.327 ms
+ Execution Time: 755.684 ms
+(18 rows)
+
+===== 5. Category join =====
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=20081.31..22897.56 rows=112650 width=111) (actual time=1405.412..1630.950 rows=100213.00 loops=1)
+   Group Key: i.seller_id, i.order_id, p.product_category
+   Buffers: shared hit=2432 read=640, temp read=1329 written=1332
+   ->  Sort  (cost=20081.31..20362.94 rows=112650 width=85) (actual time=1405.398..1562.611 rows=112650.00 loops=1)
+         Sort Key: i.seller_id, i.order_id, p.product_category
+         Sort Method: external merge  Disk: 10632kB
+         Buffers: shared hit=2432 read=640, temp read=1329 written=1332
+         ->  Hash Join  (cost=1381.40..5235.64 rows=112650 width=85) (actual time=14.648..65.926 rows=112650.00 loops=1)
+               Hash Cond: (i.product_id = p.product_id)
+               Buffers: shared hit=2432 read=640
+               ->  Seq Scan on fact_order_items i  (cost=0.00..3558.50 rows=112650 width=105) (actual time=0.005..9.117 rows=112650.00 loops=1)
+                     Buffers: shared hit=2432
+               ->  Hash  (cost=969.51..969.51 rows=32951 width=46) (actual time=14.376..14.377 rows=32951.00 loops=1)
+                     Buckets: 65536  Batches: 1  Memory Usage: 3049kB
+                     Buffers: shared read=640
+                     ->  Seq Scan on dim_product p  (cost=0.00..969.51 rows=32951 width=46) (actual time=0.111..6.808 rows=32951.00 loops=1)
+                           Buffers: shared read=640
+ Planning:
+   Buffers: shared hit=46 read=8
+ Planning Time: 0.857 ms
+ Execution Time: 1639.528 ms
+(21 rows)
+
+===== 6. Contribution ranking =====
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ WindowAgg  (cost=269.46..400.93 rows=3095 width=59) (actual time=21.321..23.810 rows=3095.00 loops=1)
+   Window: w2 AS (ORDER BY late_seller_orders, seller_late_gmv, seller_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
+   Storage: Memory  Maximum Storage: 17kB
+   Buffers: shared hit=65
+   ->  WindowAgg  (cost=269.42..339.03 rows=3095 width=51) (actual time=21.315..22.461 rows=3095.00 loops=1)
+         Window: w1 AS (ORDER BY late_seller_orders, seller_late_gmv, seller_id ROWS UNBOUNDED PRECEDING)
+         Storage: Memory  Maximum Storage: 17kB
+         Buffers: shared hit=65
+         ->  Sort  (cost=269.39..277.13 rows=3095 width=43) (actual time=21.309..21.571 rows=3095.00 loops=1)
+               Sort Key: late_seller_orders DESC, seller_late_gmv DESC NULLS LAST, seller_id
+               Sort Method: quicksort  Memory: 276kB
+               Buffers: shared hit=65
+               ->  Seq Scan on kpi_sellers  (cost=0.00..89.95 rows=3095 width=43) (actual time=0.016..0.879 rows=3095.00 loops=1)
+                     Buffers: shared hit=59
+ Planning:
+   Buffers: shared hit=39 read=4
+ Planning Time: 0.473 ms
+ Execution Time: 24.120 ms
+(18 rows)
+

@@ -1,0 +1,16 @@
+===== kpi_certification/01_independent_marketplace.sql =====
+ orders_match | delivered_match | eligible_match | exclusions_match | p2d_match | handling_match | transit_match | delivery_counts_match | on_time_rate_match | late_rate_match | monetary_match | review_counts_match | review_coverage_match | negative_review_rate_match 
+--------------+-----------------+----------------+------------------+-----------+----------------+---------------+-----------------------+--------------------+-----------------+----------------+---------------------+-----------------------+----------------------------
+ t            | t               | t              | t                | t         | t              | t             | t                     | t                  | t               | t              | t                   | t                     | t
+(1 row)
+
+ delivery_class_mismatches | late_flag_mismatches | delay_mismatches | p2d_mismatches | handling_mismatches | transit_mismatches | review_mismatches 
+---------------------------+----------------------+------------------+----------------+---------------------+--------------------+-------------------
+                         0 |                    0 |                0 |              0 |                   0 |                  0 |                 0
+(1 row)
+
+ gmv_match | freight_match | payment_match 
+-----------+---------------+---------------
+ t         | t             | t
+(1 row)
+

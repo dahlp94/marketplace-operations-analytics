@@ -17,7 +17,7 @@ The project is being built to answer questions such as:
 * Which operational problems affect the largest share of orders and marketplace value?
 * Which sellers or operational segments should be prioritized for intervention?
 
-The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, and advanced operational SQL required to answer those questions reliably. Root-cause analysis comes next.
+The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, advanced operational SQL, and certified KPI outputs required to answer those questions reliably. Root-cause analysis comes next.
 
 
 ## Why the data foundation matters
@@ -122,8 +122,9 @@ sql/quality/           # source profiling and data-quality investigation
 sql/staging/           # treated copies of raw tables
 sql/analytics/         # dimensions, facts, constraints, and model validation
 sql/certification/     # independent raw-vs-analytics foundation certification
-sql/metrics/           # Metric definitions, validation, and KPI SQL
-sql/analysis/          # Stage 3 trends, rankings, contribution, and segments
+sql/metrics/           # metric definitions, validation, and KPI SQL
+sql/analysis/          # trends, rankings, contribution, and segments
+sql/kpi_certification/ # independent KPI and analysis-layer certification
 python/scripts/        # download, load, audit, and model runners
 docs/                  # source, quality, analytical-model, and metric documentation
 tests/                 # source-structure, quality, model, and metric-contract checks
@@ -259,7 +260,7 @@ outputs/model_validation/
 ### 9. Certify the foundation
 
 ```bash
-python -m python.scripts.run_foundation_certification
+python -m python.scripts.run_certification
 ```
 
 This independently reconciles raw versus analytics entity counts, status populations, monetary totals, grains, treatments, and sample-order lineage.
@@ -279,7 +280,7 @@ pytest -q
 Current test suite:
 
 ```text
-64 passed
+72 passed
 ```
 
 ### 11. Validate metric definitions
@@ -309,7 +310,22 @@ python -m python.scripts.run_analysis_validation
 pytest tests/test_analysis_layer.py -q
 ```
 
-This creates reusable `analysis.*` trend, ranking, contribution, and segmentation tables from the Stage 2 KPI layer.
+This creates reusable `analysis.*` trend, ranking, contribution, and segmentation tables from the certified KPI layer.
+
+### 14. Certify the KPI and analysis layers
+
+```bash
+python -m python.scripts.run_kpi_certification
+pytest tests/test_kpi_certification.py -q
+```
+
+This independently recalculates marketplace KPIs, seller contribution, category and geography grains, rolling windows, rankings, repeat-customer sequences, and review denominators from certified `analytics.*` tables. It also records representative query plans.
+
+Generated outputs are saved under:
+
+```text
+outputs/kpi_certification/
+```
 
 
 ## Documentation
@@ -326,6 +342,7 @@ This creates reusable `analysis.*` trend, ranking, contribution, and segmentatio
 | [`docs/metric_dictionary.md`](docs/metric_dictionary.md) | Metric definitions, populations, grains, and attribution rules |
 | [`docs/metric_layer.md`](docs/metric_layer.md) | Reusable KPI table grains, join safety, and rebuild instructions |
 | [`docs/analysis_layer.md`](docs/analysis_layer.md) | Trends, rolling windows, rankings, contribution, and segment grains |
+| [`docs/kpi_certification.md`](docs/kpi_certification.md) | Independent KPI reconciliation, SQL QA, query-plan review, and certification decision |
 
 
 ## Current scope
@@ -347,8 +364,9 @@ Completed:
 * foundation reconciliation and certification;
 * Metric definitions and analytical population rules;
 * reusable fulfillment, seller, CX, repeat-customer, and commercial KPI tables;
-* advanced SQL trends, rankings, contribution, cohort, and segmentation tables.
+* advanced SQL trends, rankings, contribution, cohort, and segmentation tables;
+* independent KPI reconciliation, structural SQL QA, and query-plan review.
 
-Next work is KPI reconciliation, SQL QA, and the Week 2 progression gate. Root-cause conclusions and intervention priorities come after that.
+The metric and analysis layers are certified. Root-cause conclusions, statistical inference, and intervention priorities come next and must reuse these certified contracts.
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

@@ -1,0 +1,46 @@
+===== kpi_certification/03_windows_rankings_customers.sql =====
+ monthly_totals_match | first_comparable_prior_null | march_lag_match 
+----------------------+-----------------------------+-----------------
+ t                    | t                           | t
+(1 row)
+
+ rolling_30d_match | rolling_90d_match | full_windows 
+-------------------+-------------------+--------------
+ t                 | t                 | t
+(1 row)
+
+ start_windows_are_partial 
+---------------------------
+ t
+(1 row)
+
+ seller_rolling_match 
+----------------------
+ t
+(1 row)
+
+ rank_mismatches | dense_rank_mismatches | row_number_mismatches | one_order_sellers_visible 
+-----------------+-----------------------+-----------------------+---------------------------
+               0 |                     0 |                     0 |                       536
+(1 row)
+
+ sequence_mismatches | repeat_total_match 
+---------------------+--------------------
+                   0 | t
+(1 row)
+
+ invalid_unreviewed_flags | reviewed_total_match | negative_total_match 
+--------------------------+----------------------+----------------------
+                        0 | t                    | t
+(1 row)
+
+ review_bands_match 
+--------------------
+ t
+(1 row)
+
+ delivery_review_mix_match | delivered_without_usable_review 
+---------------------------+---------------------------------
+ t                         |                            1696
+(1 row)
+

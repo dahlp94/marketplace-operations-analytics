@@ -1,0 +1,34 @@
+===== kpi_certification/04_structural_qa.sql =====
+          table_name          | grain_unique 
+------------------------------+--------------
+ analysis.marketplace_day     | t
+ analysis.seller_category     | t
+ analysis.seller_contribution | t
+ analysis.seller_day_rolling  | t
+ analysis.seller_month        | t
+ analysis.seller_rankings     | t
+ metrics.kpi_customers        | t
+ metrics.kpi_orders           | t
+ metrics.kpi_seller_orders    | t
+ metrics.kpi_sellers          | t
+(10 rows)
+
+         check_name          | n_bad | passes 
+-----------------------------+-------+--------
+ duration_when_ineligible    |     0 | t
+ invalid_contributions       |     0 | t
+ invalid_delivery_flags      |     0 | t
+ invalid_seller_rates        |     0 | t
+ negative_contribution_steps |     0 | t
+ null_order_keys             |     0 | t
+ null_seller_keys            |     0 | t
+ rolling_rates_out_of_bounds |     0 | t
+ seller_order_orphans        |     0 | t
+ unreviewed_negative_flags   |     0 | t
+(10 rows)
+
+ item_product_join_stable | order_customer_join_stable | seller_join_stable | contribution_sums_to_one | cumulative_ends_at_one 
+--------------------------+----------------------------+--------------------+--------------------------+------------------------
+ t                        | t                          | t                  | t                        | t
+(1 row)
+

@@ -97,3 +97,5 @@ Validation evidence is stored in:
 ```text
 outputs/metric_layer/
 ```
+
+Independent certification of these tables against `analytics.*` is documented in [`docs/kpi_certification.md`](kpi_certification.md).
