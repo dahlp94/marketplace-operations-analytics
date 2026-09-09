@@ -1,0 +1,15 @@
+ all_orders | delivered_orders | delivery_performance_eligible | purchase_to_delivery_eligible | seller_handling_eligible | carrier_transit_eligible | reviewed_orders | reviewed_delivered_orders | comparable_trend_window_orders 
+------------+------------------+-------------------------------+-------------------------------+--------------------------+--------------------------+-----------------+---------------------------+--------------------------------
+      99441 |            96478 |                         96470 |                         96470 |                    95112 |                    96281 |           97530 |                     94782 |                          98292
+(1 row)
+
+ delivered_missing_actual_delivery | delivered_missing_estimated_delivery | non_delivered_with_actual_delivery | delivered_not_delivery_eligible | delivered_not_purchase_to_delivery_eligible | delivered_not_seller_handling_eligible | delivered_not_carrier_transit_eligible | review_present_but_unusable | no_review_rows 
+-----------------------------------+--------------------------------------+------------------------------------+---------------------------------+---------------------------------------------+----------------------------------------+----------------------------------------+-----------------------------+----------------
+                                 8 |                                    0 |                                  6 |                               8 |                                           8 |                                   1366 |                                    197 |                        1143 |            768
+(1 row)
+
+ delivery_eligible_orders | estimated_at_midnight | delivered_missing_approval | delivered_missing_carrier | carrier_before_approval | carrier_before_purchase | customer_delivery_before_carrier 
+--------------------------+-----------------------+----------------------------+---------------------------+-------------------------+-------------------------+----------------------------------
+                    96470 |                 96478 |                         14 |                         2 |                    1350 |                     165 |                               23
+(1 row)
+

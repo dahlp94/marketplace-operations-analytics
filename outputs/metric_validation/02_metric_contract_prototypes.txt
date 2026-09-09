@@ -1,0 +1,37 @@
+ eligible_orders | early_orders | on_time_orders | late_orders | on_time_delivery_rate | late_delivery_rate | avg_delivery_delay_days | avg_late_days 
+-----------------+--------------+----------------+-------------+-----------------------+--------------------+-------------------------+---------------
+           96470 |        88644 |           1292 |        6534 |              0.932269 |           0.067731 |                -11.8759 |        0.7193
+(1 row)
+
+ purchase_to_delivery_n | avg_purchase_to_delivery_days | seller_handling_n | avg_seller_handling_days | carrier_transit_n | avg_carrier_transit_days | avg_promised_window_days 
+------------------------+-------------------------------+-------------------+--------------------------+-------------------+--------------------------+--------------------------
+                  96470 |                       12.5582 |             95112 |                   2.8534 |             96281 |                   9.3348 |                  24.3727
+(1 row)
+
+ merchandise_gmv | freight_value | item_side_value | collected_payment 
+-----------------+---------------+-----------------+-------------------
+     13591643.70 |    2251909.54 |     15843553.24 |       16008872.12
+(1 row)
+
+ eligible_orders | late_orders | eligible_seller_orders | late_seller_orders | seller_gmv_sum | late_seller_gmv_sum 
+-----------------+-------------+------------------------+--------------------+----------------+---------------------
+           96470 |        6534 |                  97811 |               6547 |    13220248.93 |           985924.34
+(1 row)
+
+ reviewed_orders | review_coverage_delivered | avg_review_score | negative_review_orders | negative_review_rate | unusable_review_only_orders 
+-----------------+---------------------------+------------------+------------------------+----------------------+-----------------------------
+           97530 |                  0.982421 |           4.0913 |                  14197 |             0.145565 |                        1143
+(1 row)
+
+ review_band | n_orders 
+-------------+----------
+ negative    |    14197
+ neutral     |     8022
+ positive    |    75311
+(3 rows)
+
+ orders | customers | first_orders | repeat_orders | repeat_customers 
+--------+-----------+--------------+---------------+------------------
+  99441 |     96096 |        96096 |          3345 |             2997
+(1 row)
+

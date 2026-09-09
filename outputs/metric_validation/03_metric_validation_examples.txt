@@ -1,0 +1,70 @@
+     case_name     |             order_id             | order_status | n_items | n_sellers | n_payment_rows | merchandise_value | collected_payment 
+-------------------+----------------------------------+--------------+---------+-----------+----------------+-------------------+-------------------
+ monetary_mismatch | ce6d150fb29ada17d2082f4847107665 | delivered    |       1 |         1 |              1 |           1299.00 |           1586.47
+ multi_item        | 00143d0f86d6fbd9f9b38ab440ac16f5 | delivered    |       3 |         1 |              1 |             63.99 |            109.29
+ multi_payment     | 009ac365164f8e06f59d18a08045f6c4 | delivered    |       1 |         1 |              6 |             16.90 |             32.00
+ multi_seller      | 002f98c0f7efd42638ed6100ca699b42 | delivered    |       2 |         2 |              1 |             53.89 |             93.62
+ no_payment        | bfbd0f9bdef84302105ad712db648a6c | delivered    |       3 |         1 |              0 |            134.97 |                  
+(5 rows)
+
+             order_id             | order_item_id |            seller_id             | price | freight_value 
+----------------------------------+---------------+----------------------------------+-------+---------------
+ 002f98c0f7efd42638ed6100ca699b42 |             1 | 7299e27ed73d2ad986de7f7c77d919fa |  8.99 |         32.57
+ 002f98c0f7efd42638ed6100ca699b42 |             2 | fa40cc5b934574b62717c68f3d678b6d | 44.90 |          7.16
+(2 rows)
+
+ delivery_class |             order_id             | order_delivered_customer_date | order_estimated_delivery_date | delivery_delay_days 
+----------------+----------------------------------+-------------------------------+-------------------------------+---------------------
+ early          | 00010242fe8c5a6d1ba2dd792cb16214 | 2017-09-20 23:43:48           | 2017-09-29 00:00:00           |                  -9
+ late           | 000e906b789b55f64edcb1f84030f90d | 2017-12-09 17:27:23           | 2017-12-07 00:00:00           |                   2
+ on_time        | 0005a1a1728c9d785b8e2b08b904576c | 2018-03-29 18:17:31           | 2018-03-29 00:00:00           |                   0
+(3 rows)
+
+             order_id             | order_status | order_delivered_customer_date | order_estimated_delivery_date | eligible_on_time_delivery | has_status_timestamp_conflict 
+----------------------------------+--------------+-------------------------------+-------------------------------+---------------------------+-------------------------------
+ 0d3268bad9b086af767785e3f0fc0133 | delivered    |                               | 2018-07-24 00:00:00           | f                         | t
+ 20edc82cf5400ce95e1afacc25798b31 | delivered    |                               | 2018-07-19 00:00:00           | f                         | t
+ 2d1e2d5bf4dc7227b3bfebb81328c15f | delivered    |                               | 2017-12-18 00:00:00           | f                         | t
+ 2d858f451373b04fb5c984a1cc2defaf | delivered    |                               | 2017-06-23 00:00:00           | f                         | t
+ 2ebdfc4f15f23b91474edf87475f108e | delivered    |                               | 2018-07-30 00:00:00           | f                         | t
+(5 rows)
+
+             order_id             | purchase_to_delivery_days | seller_handling_days | carrier_transit_days | promised_window_days 
+----------------------------------+---------------------------+----------------------+----------------------+----------------------
+ 00010242fe8c5a6d1ba2dd792cb16214 |                    7.6144 |               6.3671 |               1.2150 |                   16
+ 00018f77f2f0320c557190d7a144bdd3 |                   16.2162 |               8.1457 |               8.0621 |                   19
+ 000229ec398224ef6ca0657da4fc703e |                    7.9484 |               1.9085 |               6.0295 |                   22
+(3 rows)
+
+    case_name    |             order_id             | n_review_rows | n_usable_review_rows |   order_review_score   
+-----------------+----------------------------------+---------------+----------------------+------------------------
+ negative_review | 0005a1a1728c9d785b8e2b08b904576c |             1 |                    1 | 1.00000000000000000000
+ no_review       | 00143d0f86d6fbd9f9b38ab440ac16f5 |             0 |                    0 |                       
+ positive_review | 00010242fe8c5a6d1ba2dd792cb16214 |             1 |                    1 |     5.0000000000000000
+ unusable_review | 0068c109948b9a1dfb8530d1978acef3 |             1 |                    0 |                       
+(4 rows)
+
+        customer_unique_id        |             order_id             | order_purchase_timestamp | order_sequence | is_repeat_order 
+----------------------------------+----------------------------------+--------------------------+----------------+-----------------
+ 00172711b30d52eea8b313a7f2cced02 | bb874c45df1a3c97842d52f31efee99a | 2018-07-28 00:23:49      |              1 | f
+ 00172711b30d52eea8b313a7f2cced02 | c306eca42d32507b970739b5b6a5a33a | 2018-08-13 09:14:07      |              2 | t
+(2 rows)
+
+            seller_id             | eligible_orders | late_orders | late_rate 
+----------------------------------+-----------------+-------------+-----------
+ 13d95f0f6f73943d4ceffad0fc2cd32c |               1 |           1 |  1.000000
+ 154bdf805377afea75a3bd158e9eab10 |               1 |           1 |  1.000000
+ 19484c79cef6c062cb177aa4ef2fcc3c |               1 |           1 |  1.000000
+(3 rows)
+
+             order_id             | order_delivered_customer_date | order_estimated_delivery_date | delivery_delay_days | timestamp_would_be_late 
+----------------------------------+-------------------------------+-------------------------------+---------------------+-------------------------
+ 0005a1a1728c9d785b8e2b08b904576c | 2018-03-29 18:17:31           | 2018-03-29 00:00:00           |                   0 | t
+(1 row)
+
+             order_id             | carrier_before_approval | eligible_on_time_delivery | eligible_seller_handling | eligible_carrier_transit 
+----------------------------------+-------------------------+---------------------------+--------------------------+--------------------------
+ 000576fe39319847cbb9d288c5617fa6 | t                       | t                         | f                        | t
+ 002175704e8b209f61b9ad5cfd92b60e | t                       | t                         | f                        | t
+(2 rows)
+

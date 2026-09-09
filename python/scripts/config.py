@@ -18,6 +18,7 @@ OUTPUT_DIR = ROOT / "outputs" / "source_audit"
 QUALITY_OUTPUT_DIR = ROOT / "outputs" / "quality_investigation"
 MODEL_OUTPUT_DIR = ROOT / "outputs" / "model_validation"
 CERTIFICATION_OUTPUT_DIR = ROOT / "outputs" / "certification"
+METRIC_VALIDATION_OUTPUT_DIR = ROOT / "outputs" / "metric_validation"
 
 
 SOURCE_FILES = {
