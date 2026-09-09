@@ -1,0 +1,46 @@
+===== analysis/validate/02_rank_contribution_segments.sql =====
+    check_name     | rank_shared | dense_rank_shared | row_number_unique 
+-------------------+-------------+-------------------+-------------------
+ rank_tie_behavior | t           | t                 | t
+(1 row)
+
+         check_name          | contribution_sum | late_seller_orders | negative_steps | sums_to_one | cumulative_ends_at_one 
+-----------------------------+------------------+--------------------+----------------+-------------+------------------------
+ contribution_reconciliation |     1.0000000000 |               6547 |              0 | t           | t
+(1 row)
+
+ sellers_with_late_orders | sellers_to_50pct_late_units | sellers_to_80pct_late_units | contribution_sum | marketplace_late_seller_orders 
+--------------------------+-----------------------------+-----------------------------+------------------+--------------------------------
+                     1274 |                          98 |                         398 |     1.0000000000 |                           6547
+(1 row)
+
+       check_name        | gmv_matches | one_largest_per_seller | top_ranks | categories 
+-------------------------+-------------+------------------------+-----------+------------
+ category_reconciliation | t           | t                      |       213 |         74
+(1 row)
+
+      check_name       | orders_match | repeat_match 
+-----------------------+--------------+--------------
+ repeat_reconciliation | t            | t
+(1 row)
+
+          check_name           | orders_match | gmv_match 
+-------------------------------+--------------+-----------
+ customer_state_reconciliation | t            | t
+(1 row)
+
+         check_name          | matches 
+-----------------------------+---------
+ seller_state_reconciliation | t
+(1 row)
+
+     check_name      | delivered_match | no_usable_review_orders 
+---------------------+-----------------+-------------------------
+ delivery_review_mix | t               |                    1696
+(1 row)
+
+   check_name    | matches 
+-----------------+---------
+ cohort_coverage | t
+(1 row)
+

@@ -80,6 +80,8 @@ Duration fields are null when their corresponding eligibility condition is not s
 
 Existing quality flags remain available on the order row.
 
+Advanced trend, ranking, and contribution tables are documented in [`docs/analysis_layer.md`](analysis_layer.md).
+
 # Independent Validation
 
 Validation queries independently recalculate selected metrics from:
