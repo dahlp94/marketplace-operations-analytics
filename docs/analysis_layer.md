@@ -22,6 +22,9 @@ analysis.fulfillment_month
 analysis.fulfillment_decomposition
 analysis.segment_fulfillment_performance
 analysis.segment_fulfillment_month
+analysis.seller_prioritization
+analysis.seller_watchlist
+analysis.seller_volume_threshold_sensitivity
 ```
 
 Rebuild:
@@ -29,7 +32,7 @@ Rebuild:
 ```bash
 python -m python.scripts.build_analysis_layer
 python -m python.scripts.run_analysis_validation
-pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py -q
+pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py tests/test_seller_concentration.py -q
 ```
 
 Independent certification of the metric and analysis layers is documented in [`docs/kpi_certification.md`](kpi_certification.md).
@@ -127,3 +130,24 @@ Segments with eligible volume below 100 are flagged `is_low_sample`. Monthly seg
 Seller handling, carrier transit, and promised-window days remain separate columns with their own eligibility counts. They are not added together into a new fulfillment score.
 
 Preliminary findings from these extracts are in [`docs/root_cause_analysis.md`](root_cause_analysis.md).
+
+# Seller concentration extracts
+
+These tables reuse certified seller-order late units, rates, contribution, and seller-item GMV. They add expected and excess late seller-orders.
+
+| Table | Grain | Use |
+|---|---|---|
+| `analysis.seller_prioritization` | seller | Certified volume, rate, contribution, value, reviews, recent trend, plus excess late under marketplace, category, destination, and seller-state benchmarks |
+| `analysis.seller_watchlist` | seller | Candidate investigation set with explicit reason flags |
+| `analysis.seller_volume_threshold_sensitivity` | minimum eligible volume | How late-unit coverage changes as low-volume sellers are set aside |
+
+The primary excess formula is:
+
+```text
+expected = eligible seller-orders × (6,547 / 97,811)
+excess   = observed late seller-orders − expected
+```
+
+Late rate and contribution remain separate columns. The watchlist is not a composite score.
+
+Findings are in [`docs/seller_concentration.md`](seller_concentration.md).

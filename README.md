@@ -97,6 +97,14 @@ Late orders in the comparable window have a median transit of **26.2 days** vers
 
 These are associations, not proven causes. Details are in [`docs/root_cause_analysis.md`](docs/root_cause_analysis.md).
 
+### Seller concentration
+
+Late seller-orders are moderately concentrated: **98 sellers account for 50%** of the 6,547 certified late seller-orders, and **398 account for 80%**. The largest contributor has **172 late / 1,772 eligible (9.71%)**, or **2.63%** of marketplace late units.
+
+Rate and contribution are not the same thing. Relative to the marketplace seller-order late rate of **6,547 / 97,811 = 6.69%**, the largest contributor has about **53 excess late seller-orders**, while another high-volume seller with 96 late units sits **26 below** expected. A candidate watchlist of **25 sellers** is flagged from excess late, high-rate/high-volume, or recent July–August change. It is an investigation set, not a remediation ranking.
+
+Details are in [`docs/seller_concentration.md`](docs/seller_concentration.md).
+
 
 ## Data-quality principles
 
@@ -294,7 +302,7 @@ pytest -q
 Current test suite:
 
 ```text
-79 passed
+89 passed
 ```
 
 ### 11. Validate metric definitions
@@ -359,6 +367,24 @@ outputs/figures/
 
 The narrative notebook is `python/notebooks/fulfillment_root_cause_analysis.ipynb`.
 
+### 16. Run the seller concentration analysis
+
+```bash
+python -m python.scripts.run_seller_concentration
+pytest tests/test_seller_concentration.py -q
+```
+
+This reuses certified seller-order late rate, contribution, and seller-item GMV. It writes excess-late calculations, volume-threshold sensitivity, a candidate watchlist, and concentration charts.
+
+Generated outputs are saved under:
+
+```text
+outputs/analysis/seller_*.csv
+outputs/figures/seller_*.png
+```
+
+The narrative notebook is `python/notebooks/seller_concentration_analysis.ipynb`.
+
 
 ## Documentation
 
@@ -373,9 +399,10 @@ The narrative notebook is `python/notebooks/fulfillment_root_cause_analysis.ipyn
 | [`docs/foundation_certification.md`](docs/foundation_certification.md) | Independent reconciliation and certification of the analytical foundation |
 | [`docs/metric_dictionary.md`](docs/metric_dictionary.md) | Metric definitions, populations, grains, and attribution rules |
 | [`docs/metric_layer.md`](docs/metric_layer.md) | Reusable KPI table grains, join safety, and rebuild instructions |
-| [`docs/analysis_layer.md`](docs/analysis_layer.md) | Trends, rolling windows, rankings, contribution, segments, and fulfillment extracts |
+| [`docs/analysis_layer.md`](docs/analysis_layer.md) | Trends, rolling windows, rankings, contribution, segments, fulfillment extracts, and seller concentration |
 | [`docs/kpi_certification.md`](docs/kpi_certification.md) | Independent KPI reconciliation, SQL QA, query-plan review, and certification decision |
 | [`docs/root_cause_analysis.md`](docs/root_cause_analysis.md) | Fulfillment decomposition, delivery trends, and segment findings |
+| [`docs/seller_concentration.md`](docs/seller_concentration.md) | Seller contribution, excess late orders, and candidate watchlist |
 
 
 ## Current scope
@@ -399,8 +426,9 @@ Completed:
 * reusable fulfillment, seller, CX, repeat-customer, and commercial KPI tables;
 * advanced SQL trends, rankings, contribution, cohort, and segmentation tables;
 * independent KPI reconciliation, structural SQL QA, and query-plan review;
-* fulfillment root-cause decomposition of late delivery into seller handling, carrier transit, and promise performance.
+* fulfillment root-cause decomposition of late delivery into seller handling, carrier transit, and promise performance;
+* seller concentration, excess-late comparison, and a candidate operational watchlist.
 
-The metric and analysis layers are certified. Seller intervention priorities, customer-experience inference, and statistical hypothesis tests come next and must reuse these certified contracts.
+The metric and analysis layers are certified. Final intervention recommendations, customer-experience inference, and statistical hypothesis tests come next and must reuse these certified contracts.
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

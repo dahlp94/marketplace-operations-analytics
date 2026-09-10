@@ -411,3 +411,5 @@ outputs/analysis/fulfillment_trends.csv
 outputs/analysis/fulfillment_decomposition.csv
 outputs/analysis/segment_delivery_performance.csv
 ```
+
+Seller-level concentration, excess late orders, and the candidate watchlist are documented in [`docs/seller_concentration.md`](seller_concentration.md).
