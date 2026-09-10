@@ -1,0 +1,57 @@
+Fulfillment root-cause validation
+
+Analysis period: 2017-02-01 through 2018-08-31
+Coverage class: analysis.reporting_month.full_comparable
+Source: certified metrics.kpi_orders / analysis.* extracts
+
+Comparable-window totals
+  eligible orders: 95453
+  late orders: 6509
+  late rate: 0.068191
+  late GMV: 982502.52
+
+Component populations remain separate
+  handling-eligible month sum: 94097
+  transit-eligible month sum: 95269
+
+Delivery-class decomposition (comparable window)
+  early: n=87654 median handling=1.777 median transit=6.926 median promise=24.0
+  late: n=6509 median handling=3.073 median transit=26.171 median promise=23.0
+  on_time: n=1290 median handling=2.778 median transit=15.194 median promise=20.0
+
+Outlier sensitivity (comparable window)
+  all_comparable: late 6509 / 95453 = 0.068191
+  exclude_p99_transit: late 5565 / 94500 = 0.058889
+  exclude_p99_handling: late 6018 / 94512 = 0.063674
+  exclude_p99_delay: late 5560 / 94504 = 0.058833
+
+Spike months with and without p99 transit
+  2017-11-01: 0.1240 vs 0.1112 excluding p99 transit
+  2018-02-01: 0.1413 vs 0.1158 excluding p99 transit
+  2018-03-01: 0.1896 vs 0.1661 excluding p99 transit
+  2018-08-01: 0.0619 vs 0.0616 excluding p99 transit
+
+Quarterly late rate (comparable window)
+  2017-01-01: 165 / 4199 = 0.0393
+  2017-04-01: 352 / 8983 = 0.0392
+  2017-07-01: 412 / 12215 = 0.0337
+  2017-10-01: 1502 / 17279 = 0.0869
+  2018-01-01: 2657 / 20627 = 0.1288
+  2018-04-01: 820 / 19643 = 0.0417
+  2018-07-01: 601 / 12507 = 0.0481
+
+Weekly peak inside Oct 2017-Apr 2018
+  week 2018-02-26: 487 / 1849 = 0.2634
+
+Order-level component spot checks versus analytics.fact_orders
+  rows: 8
+  max abs handling difference: 0.000000000000
+  max abs transit difference: 0.000000000000
+  max abs delay difference: 0.000000000000
+
+Largest comparable-window delays remain transit-dominated
+  1b3190b2dfa9d789e1f14c05b647a14a: delay=188d handling=3.15 transit=205.19
+  ca07593549f1816d26a572e06dc1eab6: delay=181d handling=13.47 transit=195.03
+  47b40429ed8cce3aee9199792275433f: delay=175d handling=33.64 transit=157.79
+  2fe324febf907e3ea3f2aa9650869fa5: delay=167d handling=3.46 transit=186.40
+  285ab9426d6982034523a855f55a885e: delay=166d handling=0.42 transit=194.21

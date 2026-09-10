@@ -66,3 +66,46 @@
  cohort_coverage | t
 (1 row)
 
+
+===== analysis/validate/03_fulfillment_root_cause.sql =====
+===== monthly reconciliation =====
+ month_rows | late_mismatches | duration_mismatches 
+------------+-----------------+---------------------
+         25 |               0 |                   0
+(1 row)
+
+===== comparable-window totals =====
+ kpi_eligible | kpi_late | extract_eligible | extract_late 
+--------------+----------+------------------+--------------
+        95453 |     6509 |            95453 |         6509
+(1 row)
+
+===== decomposition uses certified delivery_class =====
+ delivery_class | eligible_orders | kpi_eligible 
+----------------+-----------------+--------------
+ early          |           87654 |        87654
+ late           |            6509 |         6509
+ on_time        |            1290 |         1290
+(3 rows)
+
+===== sample order durations match fact_orders =====
+             order_id             | delivery_class | handling_matches | transit_matches | delay_matches 
+----------------------------------+----------------+------------------+-----------------+---------------
+ 000c3e6612759851cc3cbb4b83257986 | early          | t                | t               | t
+ 00685d31ae12e47470ba5c18ba74f22c | late           | t                | t               | t
+ 00137e170939bba5a3134e2386413108 | early          | t                | t               | t
+ 000e906b789b55f64edcb1f84030f90d | late           | t                | t               | t
+ 00061f2a7bc09da83e415a52dc8a4af1 | early          | t                | t               | t
+ 0032d07457ae9c806c79368d7d9ce96b | late           | t                | t               | t
+ 00024acbcdf0a6daa1e931b038114c75 | early          | t                | t               | t
+ 003a94f778ef8cfd50247c8c1b582257 | late           | t                | t               | t
+(8 rows)
+
+===== low-sample flags =====
+      segment_type      | n_segments | low_sample_segments 
+------------------------+------------+---------------------
+ customer_state         |         27 |                   3
+ product_category       |         74 |                  22
+ seller_activity_cohort |         22 |                   0
+(3 rows)
+

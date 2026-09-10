@@ -18,6 +18,10 @@ analysis.seller_category
 analysis.customer_state_performance
 analysis.repeat_order_performance
 analysis.delivery_review_mix
+analysis.fulfillment_month
+analysis.fulfillment_decomposition
+analysis.segment_fulfillment_performance
+analysis.segment_fulfillment_month
 ```
 
 Rebuild:
@@ -25,7 +29,7 @@ Rebuild:
 ```bash
 python -m python.scripts.build_analysis_layer
 python -m python.scripts.run_analysis_validation
-pytest tests/test_analysis_layer.py -q
+pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py -q
 ```
 
 Independent certification of the metric and analysis layers is documented in [`docs/kpi_certification.md`](kpi_certification.md).
@@ -102,3 +106,24 @@ Seller cohorts use `first_observed_activity_cohort`. That is the month of the se
 Customer and seller summaries use certified `state` attributes. ZIP is joined to `dim_geography` only as a 1:1 unmatched-geo diagnostic.
 
 Repeat and delivery-review tables reuse certified metric flags. They are descriptive. They are not hypothesis tests.
+
+# Fulfillment decomposition extracts
+
+These tables reuse certified duration and delivery-class fields. They do not redefine them.
+
+| Table | Grain | Use |
+|---|---|---|
+| `analysis.fulfillment_month` | purchase month | Marketplace late rate with mean, median, and p90 handling, transit, promise, and purchase-to-delivery times |
+| `analysis.fulfillment_decomposition` | `(analysis_period, delivery_class)` | Late versus early versus exact-date component comparison |
+| `analysis.segment_fulfillment_performance` | `(segment_type, segment_key)` | Comparable-window category, customer-state, and seller-activity-cohort summaries |
+| `analysis.segment_fulfillment_month` | `(segment_type, segment_key, purchase_month)` | The same segments over time |
+
+`analysis_period` is either `comparable_trend_window` or `full_extract`.
+
+Category rows use the certified seller-order-category grain. A seller-order can appear in more than one category if it contains more than one category. Customer-state rows use the order grain.
+
+Segments with eligible volume below 100 are flagged `is_low_sample`. Monthly segment rows use a 50-order threshold.
+
+Seller handling, carrier transit, and promised-window days remain separate columns with their own eligibility counts. They are not added together into a new fulfillment score.
+
+Preliminary findings from these extracts are in [`docs/root_cause_analysis.md`](root_cause_analysis.md).

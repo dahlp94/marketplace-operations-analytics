@@ -17,7 +17,7 @@ The project is being built to answer questions such as:
 * Which operational problems affect the largest share of orders and marketplace value?
 * Which sellers or operational segments should be prioritized for intervention?
 
-The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, advanced operational SQL, and certified KPI outputs required to answer those questions reliably. Root-cause analysis comes next.
+The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, certified KPI outputs, and a fulfillment root-cause analysis that decomposes late delivery into seller handling, carrier transit, and promise performance.
 
 
 ## Why the data foundation matters
@@ -86,6 +86,17 @@ For example:
 
 This preserves usable information instead of unnecessarily discarding entire orders.
 
+### Fulfillment performance
+
+Inside the comparable window (February 2017–August 2018; 95,453 eligible orders), the marketplace late rate was **6.82%** (6,509 late orders; R$982,503 late GMV). That average hides two different deterioration patterns:
+
+* **November 2017 and February–March 2018** — late rates reached **12.4%**, **14.1%**, and **18.96%**. These months are associated with longer **carrier transit** at both the mean and the median. Rio de Janeiro customer destinations show the sharpest concentration (about **34%** late in February and March 2018, versus a **3.5%** early-2017 marketplace baseline).
+* **August 2018** — the late rate rose to **6.19%** while fulfillment got faster. Median promised windows fell from **28 days in June to 14 days in August**. São Paulo accounts for **285 of 393** August late orders, consistent with tighter promises rather than slower handling or transit.
+
+Late orders in the comparable window have a median transit of **26.2 days** versus **6.9 days** for orders that were not late. Median handling is secondarily elevated (**3.1 vs 1.8 days**). Median promised windows are almost the same (**23 vs 24 days**). Extreme delays exist and are transit-dominated, but excluding the top 1% of transit times does not remove the spike months.
+
+These are associations, not proven causes. Details are in [`docs/root_cause_analysis.md`](docs/root_cause_analysis.md).
+
 
 ## Data-quality principles
 
@@ -107,8 +118,9 @@ Detailed findings and treatment rules are documented in [`docs/data_quality_repo
 ## Tech stack
 
 * **SQL / PostgreSQL** — relational modeling, quality investigation, reconciliation, and analytical queries
-* **Python** — reproducible data download, loading, and audit orchestration
-* **pytest** — executable data-quality and source-structure checks
+* **Python** — reproducible data download, loading, audit orchestration, and statistical / visual analysis
+* **pandas / matplotlib** — fulfillment extracts, sensitivity checks, and root-cause charts
+* **pytest** — executable data-quality, metric-contract, and analysis checks
 * **KaggleHub** — reproducible dataset download
 * **Git / GitHub** — version control and project documentation
 
@@ -123,13 +135,15 @@ sql/staging/           # treated copies of raw tables
 sql/analytics/         # dimensions, facts, constraints, and model validation
 sql/certification/     # independent raw-vs-analytics foundation certification
 sql/metrics/           # metric definitions, validation, and KPI SQL
-sql/analysis/          # trends, rankings, contribution, and segments
+sql/analysis/          # trends, rankings, contribution, segments, and fulfillment extracts
 sql/kpi_certification/ # independent KPI and analysis-layer certification
-python/scripts/        # download, load, audit, and model runners
-docs/                  # source, quality, analytical-model, and metric documentation
+python/scripts/        # download, load, audit, model, and analysis runners
+python/notebooks/      # fulfillment root-cause narrative
+docs/                  # source, quality, analytical-model, metric, and findings documentation
 tests/                 # source-structure, quality, model, and metric-contract checks
 scripts/               # local PostgreSQL setup
-outputs/               # generated audit, validation, and metric-contract results
+outputs/               # generated audit, validation, metric, and analysis results
+outputs/figures/       # fulfillment trend and decomposition charts
 ```
 
 
@@ -280,7 +294,7 @@ pytest -q
 Current test suite:
 
 ```text
-72 passed
+79 passed
 ```
 
 ### 11. Validate metric definitions
@@ -307,10 +321,10 @@ This creates reusable `metrics.*` tables from the certified analytical model and
 ```bash
 python -m python.scripts.build_analysis_layer
 python -m python.scripts.run_analysis_validation
-pytest tests/test_analysis_layer.py -q
+pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py -q
 ```
 
-This creates reusable `analysis.*` trend, ranking, contribution, and segmentation tables from the certified KPI layer.
+This creates reusable `analysis.*` trend, ranking, contribution, segmentation, and fulfillment-decomposition tables from the certified KPI layer.
 
 ### 14. Certify the KPI and analysis layers
 
@@ -327,6 +341,24 @@ Generated outputs are saved under:
 outputs/kpi_certification/
 ```
 
+### 15. Run the fulfillment root-cause analysis
+
+```bash
+python -m python.scripts.run_fulfillment_root_cause
+pytest tests/test_fulfillment_root_cause.py -q
+```
+
+This reuses certified handling, transit, promise, and late-delivery fields. It writes monthly decomposition extracts, segment comparisons, outlier-sensitivity tables, and trend charts.
+
+Generated outputs are saved under:
+
+```text
+outputs/analysis/fulfillment_*.csv
+outputs/figures/
+```
+
+The narrative notebook is `python/notebooks/fulfillment_root_cause_analysis.ipynb`.
+
 
 ## Documentation
 
@@ -341,8 +373,9 @@ outputs/kpi_certification/
 | [`docs/foundation_certification.md`](docs/foundation_certification.md) | Independent reconciliation and certification of the analytical foundation |
 | [`docs/metric_dictionary.md`](docs/metric_dictionary.md) | Metric definitions, populations, grains, and attribution rules |
 | [`docs/metric_layer.md`](docs/metric_layer.md) | Reusable KPI table grains, join safety, and rebuild instructions |
-| [`docs/analysis_layer.md`](docs/analysis_layer.md) | Trends, rolling windows, rankings, contribution, and segment grains |
+| [`docs/analysis_layer.md`](docs/analysis_layer.md) | Trends, rolling windows, rankings, contribution, segments, and fulfillment extracts |
 | [`docs/kpi_certification.md`](docs/kpi_certification.md) | Independent KPI reconciliation, SQL QA, query-plan review, and certification decision |
+| [`docs/root_cause_analysis.md`](docs/root_cause_analysis.md) | Fulfillment decomposition, delivery trends, and segment findings |
 
 
 ## Current scope
@@ -365,8 +398,9 @@ Completed:
 * Metric definitions and analytical population rules;
 * reusable fulfillment, seller, CX, repeat-customer, and commercial KPI tables;
 * advanced SQL trends, rankings, contribution, cohort, and segmentation tables;
-* independent KPI reconciliation, structural SQL QA, and query-plan review.
+* independent KPI reconciliation, structural SQL QA, and query-plan review;
+* fulfillment root-cause decomposition of late delivery into seller handling, carrier transit, and promise performance.
 
-The metric and analysis layers are certified. Root-cause conclusions, statistical inference, and intervention priorities come next and must reuse these certified contracts.
+The metric and analysis layers are certified. Seller intervention priorities, customer-experience inference, and statistical hypothesis tests come next and must reuse these certified contracts.
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).
