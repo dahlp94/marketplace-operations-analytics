@@ -1,0 +1,34 @@
+===== analysis/validate/05_customer_experience.sql =====
+===== review coverage =====
+ reviewed_match | negative_match | delivered_match | delivered_reviewed_match 
+----------------+----------------+-----------------+--------------------------
+ t              | t              | t               | t
+(1 row)
+
+===== delay-band reconciliation =====
+ delay_eligible | delay_reviewed | certified_eligible | certified_reviewed 
+----------------+----------------+--------------------+--------------------
+          96470 |          94774 |              96470 |              94774
+(1 row)
+
+===== review null logic =====
+ bad_rows 
+----------
+        0
+(1 row)
+
+===== category GMV reconciliation =====
+ segment_gmv | certified_gmv 
+-------------+---------------
+ 13220248.93 |   13220248.93
+(1 row)
+
+===== order spot checks =====
+             order_id             | delivery_class | delay_matches | review_score_matches | is_negative_review 
+----------------------------------+----------------+---------------+----------------------+--------------------
+ 00010242fe8c5a6d1ba2dd792cb16214 | early          | t             | t                    | f
+ 0005a1a1728c9d785b8e2b08b904576c | on_time        | t             | t                    | t
+ 00143d0f86d6fbd9f9b38ab440ac16f5 | early          | t             | t                    | 
+ 0017afd5076e074a48f1f1a4c7bac9c5 | late           | t             | t                    | t
+(4 rows)
+

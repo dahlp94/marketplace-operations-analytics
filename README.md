@@ -17,7 +17,7 @@ The project is being built to answer questions such as:
 * Which operational problems affect the largest share of orders and marketplace value?
 * Which sellers or operational segments should be prioritized for intervention?
 
-The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, certified KPI outputs, and a fulfillment root-cause analysis that decomposes late delivery into seller handling, carrier transit, and promise performance.
+The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, certified KPI outputs, a fulfillment root-cause analysis, seller concentration work, and a customer-experience analysis linking delivery performance to review outcomes.
 
 
 ## Why the data foundation matters
@@ -105,6 +105,14 @@ Rate and contribution are not the same thing. Relative to the marketplace seller
 
 Details are in [`docs/seller_concentration.md`](docs/seller_concentration.md).
 
+### Customer experience
+
+Delivery performance is strongly associated with review outcomes, but missing reviews are not random.
+
+Among delivery-performance-eligible reviewed orders, **62.34%** of late orders are negative (3,932 / 6,307; average score **2.27**) versus **9.11%** of early orders (7,945 / 87,203; average score **4.30**). The gap is graded by delay: **31.97%** negative at 1–3 days late and **80.29%** at 8–14 days late. Unreviewed delivered orders are about twice as late as reviewed ones (**13.38%** versus **6.65%**), and repeat-order coverage drops to **81.38%**.
+
+The association remains large inside GMV bands and after excluding extreme delays. It is not a causal estimate. Details are in [`docs/customer_experience_analysis.md`](docs/customer_experience_analysis.md).
+
 
 ## Data-quality principles
 
@@ -127,7 +135,7 @@ Detailed findings and treatment rules are documented in [`docs/data_quality_repo
 
 * **SQL / PostgreSQL** — relational modeling, quality investigation, reconciliation, and analytical queries
 * **Python** — reproducible data download, loading, audit orchestration, and statistical / visual analysis
-* **pandas / matplotlib** — fulfillment extracts, sensitivity checks, and root-cause charts
+* **pandas / matplotlib** — fulfillment, seller, and customer-experience extracts, sensitivity checks, and charts
 * **pytest** — executable data-quality, metric-contract, and analysis checks
 * **KaggleHub** — reproducible dataset download
 * **Git / GitHub** — version control and project documentation
@@ -143,15 +151,15 @@ sql/staging/           # treated copies of raw tables
 sql/analytics/         # dimensions, facts, constraints, and model validation
 sql/certification/     # independent raw-vs-analytics foundation certification
 sql/metrics/           # metric definitions, validation, and KPI SQL
-sql/analysis/          # trends, rankings, contribution, segments, and fulfillment extracts
+sql/analysis/          # trends, rankings, contribution, segments, fulfillment, seller, and CX extracts
 sql/kpi_certification/ # independent KPI and analysis-layer certification
 python/scripts/        # download, load, audit, model, and analysis runners
-python/notebooks/      # fulfillment root-cause narrative
+python/notebooks/      # fulfillment, seller, and customer-experience narratives
 docs/                  # source, quality, analytical-model, metric, and findings documentation
 tests/                 # source-structure, quality, model, and metric-contract checks
 scripts/               # local PostgreSQL setup
 outputs/               # generated audit, validation, metric, and analysis results
-outputs/figures/       # fulfillment trend and decomposition charts
+outputs/figures/       # fulfillment, seller, and customer-experience charts
 ```
 
 
@@ -302,7 +310,7 @@ pytest -q
 Current test suite:
 
 ```text
-89 passed
+97 passed
 ```
 
 ### 11. Validate metric definitions
@@ -329,10 +337,10 @@ This creates reusable `metrics.*` tables from the certified analytical model and
 ```bash
 python -m python.scripts.build_analysis_layer
 python -m python.scripts.run_analysis_validation
-pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py -q
+pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py tests/test_seller_concentration.py tests/test_customer_experience.py -q
 ```
 
-This creates reusable `analysis.*` trend, ranking, contribution, segmentation, and fulfillment-decomposition tables from the certified KPI layer.
+This creates reusable `analysis.*` trend, ranking, contribution, segmentation, fulfillment, seller, and customer-experience tables from the certified KPI layer.
 
 ### 14. Certify the KPI and analysis layers
 
@@ -385,6 +393,26 @@ outputs/figures/seller_*.png
 
 The narrative notebook is `python/notebooks/seller_concentration_analysis.ipynb`.
 
+### 17. Run the customer-experience analysis
+
+```bash
+python -m python.scripts.run_customer_experience
+pytest tests/test_customer_experience.py -q
+```
+
+This reuses certified delivery class, delay days, review scores, and negative-review flags. It writes coverage, delivery/review cross-tabs, delay-band rates, segment splits, and CX charts.
+
+Generated outputs are saved under:
+
+```text
+outputs/analysis/review_*.csv
+outputs/analysis/delivery_review_*.csv
+outputs/analysis/delay_band_reviews.csv
+outputs/figures/cx_*.png
+```
+
+The narrative notebook is `python/notebooks/customer_experience_analysis.ipynb`.
+
 
 ## Documentation
 
@@ -399,10 +427,11 @@ The narrative notebook is `python/notebooks/seller_concentration_analysis.ipynb`
 | [`docs/foundation_certification.md`](docs/foundation_certification.md) | Independent reconciliation and certification of the analytical foundation |
 | [`docs/metric_dictionary.md`](docs/metric_dictionary.md) | Metric definitions, populations, grains, and attribution rules |
 | [`docs/metric_layer.md`](docs/metric_layer.md) | Reusable KPI table grains, join safety, and rebuild instructions |
-| [`docs/analysis_layer.md`](docs/analysis_layer.md) | Trends, rolling windows, rankings, contribution, segments, fulfillment extracts, and seller concentration |
+| [`docs/analysis_layer.md`](docs/analysis_layer.md) | Trends, rolling windows, rankings, contribution, segments, fulfillment, seller, and customer-experience extracts |
 | [`docs/kpi_certification.md`](docs/kpi_certification.md) | Independent KPI reconciliation, SQL QA, query-plan review, and certification decision |
 | [`docs/root_cause_analysis.md`](docs/root_cause_analysis.md) | Fulfillment decomposition, delivery trends, and segment findings |
 | [`docs/seller_concentration.md`](docs/seller_concentration.md) | Seller contribution, excess late orders, and candidate watchlist |
+| [`docs/customer_experience_analysis.md`](docs/customer_experience_analysis.md) | Delivery performance associated with review coverage, scores, and negative reviews |
 
 
 ## Current scope
@@ -427,8 +456,9 @@ Completed:
 * advanced SQL trends, rankings, contribution, cohort, and segmentation tables;
 * independent KPI reconciliation, structural SQL QA, and query-plan review;
 * fulfillment root-cause decomposition of late delivery into seller handling, carrier transit, and promise performance;
-* seller concentration, excess-late comparison, and a candidate operational watchlist.
+* seller concentration, excess-late comparison, and a candidate operational watchlist;
+* customer-experience analysis of how delivery performance is associated with review outcomes.
 
-The metric and analysis layers are certified. Final intervention recommendations, customer-experience inference, and statistical hypothesis tests come next and must reuse these certified contracts.
+The metric and analysis layers are certified. Final intervention recommendations and statistical hypothesis tests come next and must reuse these certified contracts.
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

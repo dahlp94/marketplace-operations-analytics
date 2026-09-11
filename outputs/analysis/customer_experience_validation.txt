@@ -1,0 +1,20 @@
+Customer experience validation
+
+Reviewed orders: 97,530
+Delivered review coverage: 98.24%
+
+Negative review rate by delivery class
+early: 7945 / 87203 = 9.11%
+on_time: 155 / 1264 = 12.26%
+late: 3932 / 6307 = 62.34%
+
+Late-order sensitivity
+all_eligible: 3932 / 6307 = 62.34%
+exclude_late_31plus: 3713 / 5985 = 62.04%
+exclude_p99_delay: 3226 / 5402 = 59.72%
+
+Order spot checks
+00010242fe8c5a6d1ba2dd792cb16214: delay -9/-9, score 5.0/5.0
+0005a1a1728c9d785b8e2b08b904576c: delay 0/0, score 1.0/1.0
+00143d0f86d6fbd9f9b38ab440ac16f5: delay -10/-10, score nan/nan
+0017afd5076e074a48f1f1a4c7bac9c5: delay 4/4, score 1.0/1.0

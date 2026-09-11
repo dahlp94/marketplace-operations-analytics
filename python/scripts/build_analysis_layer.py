@@ -13,6 +13,7 @@ ANALYSIS_FILES = [
     "analysis/30_segments.sql",
     "analysis/fulfillment_root_cause.sql",
     "analysis/seller_concentration.sql",
+    "analysis/customer_experience.sql",
     "analysis/40_constraints.sql",
 ]
 

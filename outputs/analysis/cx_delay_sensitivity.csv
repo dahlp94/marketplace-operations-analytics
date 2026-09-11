@@ -1,0 +1,10 @@
+slice,delivery_class,reviewed_orders,negative_review_orders,negative_review_rate
+all_eligible,early,87203,7945,0.09110925082852654
+all_eligible,late,6307,3932,0.6234342793721263
+all_eligible,on_time,1264,155,0.12262658227848101
+exclude_late_31plus,early,87203,7945,0.09110925082852654
+exclude_late_31plus,late,5985,3713,0.6203842940685046
+exclude_late_31plus,on_time,1264,155,0.12262658227848101
+exclude_p99_delay,early,87203,7945,0.09110925082852654
+exclude_p99_delay,late,5402,3226,0.5971862273232136
+exclude_p99_delay,on_time,1264,155,0.12262658227848101

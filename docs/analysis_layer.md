@@ -25,6 +25,12 @@ analysis.segment_fulfillment_month
 analysis.seller_prioritization
 analysis.seller_watchlist
 analysis.seller_volume_threshold_sensitivity
+analysis.review_coverage
+analysis.review_score_distribution
+analysis.delay_band_reviews
+analysis.review_selection
+analysis.delivery_review_month
+analysis.segment_review_performance
 ```
 
 Rebuild:
@@ -32,7 +38,7 @@ Rebuild:
 ```bash
 python -m python.scripts.build_analysis_layer
 python -m python.scripts.run_analysis_validation
-pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py tests/test_seller_concentration.py -q
+pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py tests/test_seller_concentration.py tests/test_customer_experience.py -q
 ```
 
 Independent certification of the metric and analysis layers is documented in [`docs/kpi_certification.md`](kpi_certification.md).
@@ -151,3 +157,24 @@ excess   = observed late seller-orders − expected
 Late rate and contribution remain separate columns. The watchlist is not a composite score.
 
 Findings are in [`docs/seller_concentration.md`](seller_concentration.md).
+
+# Customer experience extracts
+
+These tables reuse certified delivery class, delay days, review scores, negative-review flags, GMV, and repeat-order fields. They do not redefine them.
+
+Reviews remain at the order grain. Missing reviews stay visible and are never coded as negative.
+
+| Table | Grain | Use |
+|---|---|---|
+| `analysis.review_coverage` | population | Certified review denominators, including delivered coverage and first versus repeat missingness |
+| `analysis.review_score_distribution` | `(delivery_class, review_score)` | Score mix among eligible reviewed orders |
+| `analysis.delay_band_reviews` | delay band | Negative-review rate by how early or late the order arrived |
+| `analysis.review_selection` | reviewed vs unreviewed delivered orders | Whether missing reviews are associated with worse delivery |
+| `analysis.delivery_review_month` | purchase month | Whether the late-review relationship changes during spike and promise-compression months |
+| `analysis.segment_review_performance` | `(segment_type, segment_key)` | Sequence, GMV band, customer state, and primary-category splits, with early versus late rates |
+
+`analysis.delivery_review_mix` and `analysis.delivery_class_review_rates` remain the certified delivery-by-review cross-tabs.
+
+Primary category is the order's largest-GMV category, so a review is counted once. Segments with fewer than 100 reviewed orders are flagged `is_low_sample`.
+
+Findings are in [`docs/customer_experience_analysis.md`](customer_experience_analysis.md).

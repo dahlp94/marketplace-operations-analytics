@@ -1,0 +1,5 @@
+order_id,delivery_class,kpi_delay_days,source_delay_days,kpi_review_score,source_review_score,is_negative_review
+00010242fe8c5a6d1ba2dd792cb16214,early,-9,-9,5.0,5.0,False
+0005a1a1728c9d785b8e2b08b904576c,on_time,0,0,1.0,1.0,True
+00143d0f86d6fbd9f9b38ab440ac16f5,early,-10,-10,,,
+0017afd5076e074a48f1f1a4c7bac9c5,late,4,4,1.0,1.0,True
