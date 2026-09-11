@@ -178,3 +178,31 @@
  0017afd5076e074a48f1f1a4c7bac9c5 | late           | t             | t                    | t
 (4 rows)
 
+
+===== analysis/validate/06_statistical_validation.sql =====
+===== inference population =====
+ delivered_in_extract | distinct_orders | eligible_in_extract | certified_delivered | certified_eligible 
+----------------------+-----------------+---------------------+---------------------+--------------------
+                96478 |           96478 |               96470 |               96478 |              96470
+(1 row)
+
+===== review null logic =====
+ bad_rows 
+----------
+        0
+(1 row)
+
+===== rate reconciliation =====
+          population           | numerator_match | denominator_match 
+-------------------------------+-----------------+-------------------
+ marketplace_late_all_eligible | t               | t
+ negative_review_early         | t               | t
+ negative_review_late          | t               | t
+ negative_review_late_15_30    | t               | t
+ negative_review_late_1_3      | t               | t
+ negative_review_late_31plus   | t               | t
+ negative_review_late_4_7      | t               | t
+ negative_review_late_8_14     | t               | t
+ watchlist_seller_order_late   | t               | t
+(9 rows)
+

@@ -131,7 +131,7 @@ However, review outcomes alone should not be used to assign seller responsibilit
 * Missing reviews are not random.
 * Exact on-time deliveries are relatively uncommon.
 * Product category, geography, order value, and time period may influence both delivery outcomes and reviews.
-* No regression or hypothesis testing is included here; those belong in the statistical validation analysis.
+* No regression or hypothesis testing is included here; those belong in [`docs/statistical_validation.md`](statistical_validation.md).
 
 
 ## Reproduction

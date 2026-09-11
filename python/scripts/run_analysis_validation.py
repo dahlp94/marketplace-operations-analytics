@@ -12,6 +12,7 @@ VALIDATION_FILES = [
     "analysis/validate/03_fulfillment_root_cause.sql",
     "analysis/validate/04_seller_concentration.sql",
     "analysis/validate/05_customer_experience.sql",
+    "analysis/validate/06_statistical_validation.sql",
 ]
 
 def run_sql(filename):

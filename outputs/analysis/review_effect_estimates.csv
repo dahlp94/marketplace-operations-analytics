@@ -1,0 +1,19 @@
+estimate,grain,question,numerator,denominator,rate,ci_low,ci_high
+late_among_reviewed_delivered,order,Late rate by review availability,6307,94774,0.0665477873678435,0.06497851198387336,0.06815219942089021
+late_among_unreviewed_delivered,order,Late rate by review availability,227,1696,0.1338443396226415,0.11846458797004412,0.15087903607494924
+late_aug_2018,order,Late rate in key fulfillment period,393,6351,0.061880018894662256,0.05621514552684044,0.06807457341246881
+late_early_baseline,order,Late rate in key fulfillment period,747,21247,0.0351579046453617,0.03276422829653227,0.03771963756464649
+late_feb_mar_2018,order,Late rate in key fulfillment period,2254,13558,0.1662487092491518,0.1600765938761337,0.17260989803726123
+late_nov_2017,order,Late rate in key fulfillment period,904,7288,0.12403951701427003,0.11666924067401635,0.13180591735742586
+marketplace_late_all_eligible,order,Overall marketplace late rate,6534,96470,0.06773090079817559,0.0661623695954664,0.06933385675103326
+marketplace_late_comparable,order,Comparable-window marketplace late rate,6509,95453,0.0681906278482604,0.06660882976207949,0.06980718044540479
+negative_review_early,order,Negative-review rate by delivery class,7945,87203,0.09110925082852654,0.08921728076572691,0.09303724414245715
+negative_review_late,order,Negative-review rate by delivery class,3932,6307,0.6234342793721263,0.6114047169432356,0.6353135709680816
+negative_review_late_15_30,order,Negative-review rate by late-delay severity,809,990,0.8171717171717172,0.7918837325588334,0.840007797449578
+negative_review_late_1_3,order,Negative-review rate by late-delay severity,586,1833,0.31969448990725585,0.2987411357103235,0.34140200412038274
+negative_review_late_31plus,order,Negative-review rate by late-delay severity,219,322,0.6801242236024845,0.6273119744415562,0.7286893779334133
+negative_review_late_4_7,order,Negative-review rate by late-delay severity,1169,1731,0.6753321779318313,0.6529063577630398,0.6969815221430726
+negative_review_late_8_14,order,Negative-review rate by late-delay severity,1149,1431,0.8029350104821803,0.781525832655962,0.8227221103276434
+negative_review_on_time,order,Negative-review rate by delivery class,155,1264,0.12262658227848101,0.10567871335140111,0.1418612741109268
+nonwatchlist_seller_order_late,seller_order,Pooled late rate among non-watchlist sellers,5139,82452,0.0623271721729006,0.060697368861353435,0.06399775615238562
+watchlist_seller_order_late,seller_order,Pooled late rate among watchlist sellers,1408,15359,0.09167263493717039,0.08721056399339705,0.0963389093497429

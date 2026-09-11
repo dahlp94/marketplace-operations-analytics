@@ -14,6 +14,7 @@ ANALYSIS_FILES = [
     "analysis/fulfillment_root_cause.sql",
     "analysis/seller_concentration.sql",
     "analysis/customer_experience.sql",
+    "analysis/statistical_validation.sql",
     "analysis/40_constraints.sql",
 ]
 

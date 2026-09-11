@@ -31,6 +31,8 @@ analysis.delay_band_reviews
 analysis.review_selection
 analysis.delivery_review_month
 analysis.segment_review_performance
+analysis.inference_orders
+analysis.inference_rate_counts
 ```
 
 Rebuild:
@@ -38,7 +40,7 @@ Rebuild:
 ```bash
 python -m python.scripts.build_analysis_layer
 python -m python.scripts.run_analysis_validation
-pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py tests/test_seller_concentration.py tests/test_customer_experience.py -q
+pytest tests/test_analysis_layer.py tests/test_fulfillment_root_cause.py tests/test_seller_concentration.py tests/test_customer_experience.py tests/test_statistical_validation.py -q
 ```
 
 Independent certification of the metric and analysis layers is documented in [`docs/kpi_certification.md`](kpi_certification.md).
@@ -178,3 +180,20 @@ Reviews remain at the order grain. Missing reviews stay visible and are never co
 Primary category is the order's largest-GMV category, so a review is counted once. Segments with fewer than 100 reviewed orders are flagged `is_low_sample`.
 
 Findings are in [`docs/customer_experience_analysis.md`](customer_experience_analysis.md).
+
+# Statistical validation extracts
+
+These tables reuse certified delivery, review, and seller-order fields plus the approved customer-experience and watchlist extracts. They do not redefine KPI logic.
+
+Python computes confidence intervals, comparisons, bootstrap intervals, and the review-outcome model from these populations.
+
+| Table | Grain | Use |
+|---|---|---|
+| `analysis.inference_orders` | delivered order | Row-level extract for bootstrap, regression, missingness, and period rates |
+| `analysis.inference_rate_counts` | named population | Certified numerators and denominators for rate intervals and group comparisons |
+
+`inference_orders` is restricted to delivered orders. The regression population is the subset that is delivery-performance eligible and has a usable review. Unreviewed orders remain in the extract so review-selection missingness can be quantified.
+
+Primary seller is the highest-item-GMV seller on the order. It is used only as a clustering unit for bootstrap dependence checks. It is not a causal seller attribution.
+
+Findings are in [`docs/statistical_validation.md`](statistical_validation.md).

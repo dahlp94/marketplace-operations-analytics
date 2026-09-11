@@ -1,0 +1,2 @@
+n_model,n_negative,negative_share,n_late,converged,pseudo_r2,reference_categories,note
+94774,12032,0.12695465000949627,6307,True,0.1685373539353241,early; GMV<50; SP,Unreviewed eligible orders are excluded because negative-review outcome is undefined.

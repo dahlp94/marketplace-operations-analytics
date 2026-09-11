@@ -1,0 +1,6 @@
+comparison,question,left_population,right_population,left_rate,right_rate,left_n,right_n,difference,ci_low,ci_high,p_value
+late_vs_early_negative,Late versus early negative-review gap,negative_review_late,negative_review_early,0.6234342793721263,0.09110925082852654,6307,87203,0.5323250285435998,0.5202156278503194,0.5444344292368801,0.0
+late_1_3_vs_early_negative,1–3 day late versus early negative-review gap,negative_review_late_1_3,negative_review_early,0.31969448990725585,0.09110925082852654,1833,87203,0.2285852390787293,0.20715053988271193,0.25001993827474667,5.181409595959446e-97
+unreviewed_vs_reviewed_late,Review-selection late-rate gap,late_among_unreviewed_delivered,late_among_reviewed_delivered,0.1338443396226415,0.0665477873678435,1696,94774,0.067296552254798,0.0510146397072198,0.0835784648023762,5.453553660348542e-16
+feb_mar_2018_vs_early_baseline,February–March 2018 versus early-baseline late-rate gap,late_feb_mar_2018,late_early_baseline,0.1662487092491518,0.0351579046453617,13558,21247,0.1310908046037901,0.12435239354672908,0.13782921566085113,0.0
+watchlist_vs_nonwatchlist,Watchlist versus non-watchlist seller late-rate gap,watchlist_seller_order_late,nonwatchlist_seller_order_late,0.09167263493717039,0.0623271721729006,15359,82452,0.02934546276426979,0.024492700122768614,0.034198225405770964,2.095439040166001e-32

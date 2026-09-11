@@ -1,0 +1,3 @@
+quantity,question,n_bootstrap,seed,point_estimate,ci_low,ci_high
+late_minus_early_negative,Late minus early negative-review rate,2000,0,0.5324395868779059,0.5201040243925027,0.5445727309403523
+unreviewed_minus_reviewed_late,Unreviewed minus reviewed late-delivery rate,2000,0,0.06711746660551159,0.05144776142728421,0.08303813888083708
