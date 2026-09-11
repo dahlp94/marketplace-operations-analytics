@@ -17,7 +17,7 @@ The project is being built to answer questions such as:
 * Which operational problems affect the largest share of orders and marketplace value?
 * Which sellers or operational segments should be prioritized for intervention?
 
-The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, certified KPI outputs, a fulfillment root-cause analysis, seller concentration work, a customer-experience analysis linking delivery performance to review outcomes, and statistical validation of those findings.
+The current repository contains the data foundation, quality controls, analytical model, metric contracts, reusable KPI layer, certified KPI outputs, a fulfillment root-cause analysis, seller concentration work, a customer-experience analysis linking delivery performance to review outcomes, statistical validation of those findings, and an operational intervention framework.
 
 
 ## Why the data foundation matters
@@ -117,13 +117,24 @@ The association remains large inside GMV bands and after excluding extreme delay
 
 The descriptive gaps remain large after uncertainty and adjustment.
 
-The late-versus-early negative-review difference is **53.23 percentage points** (95% CI **52.02–54.44**; 6,307 late vs 87,203 early reviewed orders). A 1–3 day delay still has a **22.86 point** gap. Order-level and seller-clustered bootstraps (seed 0, 2,000 resamples) give nearly the same interval.
+The late-versus-early negative-review difference is **53.23 percentage points** (95% CI **52.02–54.44**; 6,307 late vs 87,203 early reviewed orders). A 1–3 day delay still has a **22.86 point** gap. An order-level bootstrap (seed 0, 2,000 resamples) gives nearly the same interval.
 
-November 2017 and February–March 2018 remain far above the early-2017 baseline (**+8.89 pp** and **+13.11 pp**). August 2018 is only **+2.67 pp**, consistent with a different failure mode. The 25-seller watchlist has a pooled late rate of **9.17%** versus **6.23%** among other sellers; some recent-deterioration sellers have lifetime intervals that overlap the marketplace rate, so the list stays an investigation queue.
+November 2017 and February–March 2018 remain well above the early-2017 baseline (**+8.89 pp** and **+13.11 pp** descriptively). The simplified statistical validation formally retains the February–March comparison, with a **+13.11 pp** gap (95% CI **12.44–13.78**). August 2018 is only **+2.67 pp**, consistent with a different failure mode. The 25-seller watchlist has a pooled late rate of **9.17%** versus **6.23%** among other sellers, so the list remains an investigation queue rather than a penalty ranking.
 
-After adjusting for order value, purchase sequence, customer state, and multi-seller structure, late delivery has an odds ratio of **16.92** (15.98–17.91) for a negative review versus early delivery. Predicted probabilities match the descriptive rates. Excluding extreme delays does not remove the association.
+After adjusting for order value, customer state, repeat purchase, and multi-seller structure, a **1–3 day delay** has an odds ratio of **4.92** (95% CI **4.45–5.45**) for a negative review versus early delivery. Excluding extreme delays does not remove the association.
 
 These are adjusted associations, not causal effects. Details are in [`docs/statistical_validation.md`](docs/statistical_validation.md).
+
+### Where Operations should focus
+
+The validated evidence supports four investigation priorities, not a single marketplace shock:
+
+1. **Carrier transit to high-delay destinations during peak months**, starting with Rio de Janeiro in February–March-like conditions (16.62% late; RJ about 34% late).
+2. **Promise-window setting after compression**, especially São Paulo in August-like months (fulfillment stayed fast; 285 of 393 August late orders were SP).
+3. **The high-excess seller queue** (14 sellers with ≥100 eligible seller-orders and ≥15 excess late), not one-off high rates and not recent-deterioration-only sellers.
+4. **Delivery reliability as the customer-experience outcome** (late vs early negative-review gap 53.23 pp). Reviews should not be used as a seller penalty.
+
+These are investigation and monitoring actions. They are not estimated treatment effects. Details are in [`docs/operational_findings.md`](docs/operational_findings.md).
 
 
 ## Data-quality principles
@@ -466,6 +477,7 @@ The narrative notebook is `python/notebooks/statistical_validation.ipynb`.
 | [`docs/seller_concentration.md`](docs/seller_concentration.md) | Seller contribution, excess late orders, and candidate watchlist |
 | [`docs/customer_experience_analysis.md`](docs/customer_experience_analysis.md) | Delivery performance associated with review coverage, scores, and negative reviews |
 | [`docs/statistical_validation.md`](docs/statistical_validation.md) | Confidence intervals, group comparisons, bootstrap, review-outcome model, and sensitivity |
+| [`docs/operational_findings.md`](docs/operational_findings.md) | Synthesized findings, seller/segment priorities, intervention framework, and success metrics |
 
 
 ## Current scope
@@ -492,8 +504,9 @@ Completed:
 * fulfillment root-cause decomposition of late delivery into seller handling, carrier transit, and promise performance;
 * seller concentration, excess-late comparison, and a candidate operational watchlist;
 * customer-experience analysis of how delivery performance is associated with review outcomes;
-* statistical validation of the main late-delivery and review differences, including intervals, bootstrap checks, and an adjusted review-outcome model.
+* statistical validation of the main late-delivery and review differences, including intervals, bootstrap checks, and an adjusted review-outcome model;
+* operational findings, seller/segment priorities, and an investigation framework with success metrics.
 
-The metric and analysis layers are certified. Final intervention recommendations come next and must reuse these certified contracts.
+The metric and analysis layers are certified. Later dashboard work must reuse these certified contracts and the priorities in [`docs/operational_findings.md`](docs/operational_findings.md).
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

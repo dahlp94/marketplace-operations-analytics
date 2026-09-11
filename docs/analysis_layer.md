@@ -194,6 +194,8 @@ Python computes confidence intervals, comparisons, bootstrap intervals, and the 
 
 `inference_orders` is restricted to delivered orders. The regression population is the subset that is delivery-performance eligible and has a usable review. Unreviewed orders remain in the extract so review-selection missingness can be quantified.
 
-Primary seller is the highest-item-GMV seller on the order. It is used only as a clustering unit for bootstrap dependence checks. It is not a causal seller attribution.
+The simplified statistical validation uses order-level bootstrap resampling and an adjusted review-outcome model. It does not use primary seller as a clustering unit.
 
 Findings are in [`docs/statistical_validation.md`](statistical_validation.md).
+
+The operational synthesis of fulfillment, seller, customer-experience, and statistical results is in [`docs/operational_findings.md`](operational_findings.md).
