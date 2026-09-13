@@ -457,6 +457,16 @@ outputs/figures/stat_*.png
 
 The narrative notebook is `python/notebooks/statistical_validation.ipynb`.
 
+### 19. Build dashboard-ready views
+
+```bash
+python -m python.scripts.build_dashboard_layer
+python -m python.scripts.export_dashboard_extracts
+pytest tests/test_dashboard_layer.py -q
+```
+
+This creates `dashboard.*` views from certified `metrics.*` and `analysis.*` tables and writes Tableau extracts under `outputs/dashboard/`. It does not redefine KPI logic.
+
 
 ## Documentation
 
@@ -478,6 +488,8 @@ The narrative notebook is `python/notebooks/statistical_validation.ipynb`.
 | [`docs/customer_experience_analysis.md`](docs/customer_experience_analysis.md) | Delivery performance associated with review coverage, scores, and negative reviews |
 | [`docs/statistical_validation.md`](docs/statistical_validation.md) | Confidence intervals, group comparisons, bootstrap, review-outcome model, and sensitivity |
 | [`docs/operational_findings.md`](docs/operational_findings.md) | Synthesized findings, seller/segment priorities, intervention framework, and success metrics |
+| [`docs/dashboard_specification.md`](docs/dashboard_specification.md) | Dashboard purpose, datasets, KPI mapping, pages, filters, and refresh |
+| [`docs/dashboard_validation.md`](docs/dashboard_validation.md) | SQL-versus-dashboard reconciliation cases |
 
 
 ## Current scope
@@ -505,8 +517,9 @@ Completed:
 * seller concentration, excess-late comparison, and a candidate operational watchlist;
 * customer-experience analysis of how delivery performance is associated with review outcomes;
 * statistical validation of the main late-delivery and review differences, including intervals, bootstrap checks, and an adjusted review-outcome model;
-* operational findings, seller/segment priorities, and an investigation framework with success metrics.
+* operational findings, seller/segment priorities, and an investigation framework with success metrics;
+* dashboard specification and dashboard-ready SQL views for Tableau.
 
-The metric and analysis layers are certified. Later dashboard work must reuse these certified contracts and the priorities in [`docs/operational_findings.md`](docs/operational_findings.md).
+The metric and analysis layers are certified. Dashboard views reuse these certified contracts and the priorities in [`docs/operational_findings.md`](docs/operational_findings.md).
 
 Raw-source anomalies will not be reinterpreted independently in later analysis; the analytical layer uses the treatment rules documented in [`docs/data_quality_report.md`](docs/data_quality_report.md) and [`docs/data_model.md`](docs/data_model.md).

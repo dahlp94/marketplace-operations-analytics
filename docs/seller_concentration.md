@@ -203,9 +203,9 @@ Within the watchlist:
 
 * **14** sellers meet the high-excess rule;
 * **11** meet the high-rate/high-volume rule;
-* **11** show recent deterioration.
+* **11** are flagged for recent deterioration.
 
-Sellers can satisfy more than one condition.
+Sellers can satisfy more than one condition. Ten of the recently deteriorating sellers are not already high-excess and are monitor-only.
 
 
 ## High-Excess Core

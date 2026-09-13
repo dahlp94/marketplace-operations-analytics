@@ -23,6 +23,7 @@ METRIC_LAYER_OUTPUT_DIR = ROOT / "outputs" / "metric_layer"
 ANALYSIS_OUTPUT_DIR = ROOT / "outputs" / "analysis"
 FIGURES_OUTPUT_DIR = ROOT / "outputs" / "figures"
 KPI_CERTIFICATION_OUTPUT_DIR = ROOT / "outputs" / "kpi_certification"
+DASHBOARD_OUTPUT_DIR = ROOT / "outputs" / "dashboard"
 
 
 SOURCE_FILES = {

@@ -206,7 +206,7 @@ Customer geography provides a clearer signal than seller geography.
 Across the full comparable analysis:
 
 ```text
-1,495 late / 12,350 eligible = 12.11%
+1,492 late / 12,219 eligible = 12.21%
 ```
 
 During major deterioration periods:

@@ -48,7 +48,7 @@ Carrier transit is the largest separation. Seller handling is elevated among lat
 Rio de Janeiro:
 
 ```text
-Comparable window: 1,495 / 12,350 = 12.11% late
+Comparable window: 1,492 / 12,219 = 12.21% late
 February 2018:       299 / 879    = 34.02%
 March 2018:          298 / 864    = 34.49%
 ```
@@ -197,7 +197,7 @@ This is a process/geography segment. It dominates August late volume while fulfi
 
 ### Monitor, do not escalate first: recent-deterioration-only sellers
 
-Eleven watchlist sellers enter only through July–August change. Examples such as `da8622b1…`, `d91fb3b7…`, and `f8db351d8…` have lifetime excess near zero or negative. Their August movement is consistent with marketplace promise compression. Keep them on a monitoring list.
+Eleven watchlist sellers are flagged for recent July–August deterioration. Ten of those are not already high-excess and are monitor-only. Examples such as `da8622b1…`, `d91fb3b7…`, and `f8db351d8…` have lifetime excess near zero or negative. Their August movement is consistent with marketplace promise compression. Keep the monitor-only sellers on a monitoring list.
 
 Do not prioritize one-order 100% late-rate sellers. They fail the volume screen and contribute almost no marketplace late units.
 
